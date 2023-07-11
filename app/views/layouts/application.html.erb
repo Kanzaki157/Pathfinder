@@ -7,10 +7,34 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
+  
+  <header>
+    <nav class="navbar navbar-light" style="background-color: #90ee90;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Logo</a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <%= link_to "マイページ", class: 'nav-link text-dark mr-2' %>
+        </li>
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "ログアウト", class: 'nav-link text-dark' %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Login',  class: 'nav-link text-dark' %>
+          </li>
+        <% end %>
+    </ul>
+  </div>
+</nav>
+  </header>
 
   <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
