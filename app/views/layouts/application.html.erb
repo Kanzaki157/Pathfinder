@@ -1,47 +1,49 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Pathfinder</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-          <%= csrf_meta_tags %>
-        <%= csp_meta_tag %>
-      <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-<header>
-  <nav class="navbar navbar-light" style="background-color: #90ee90;">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Pathfinder</a>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <%= link_to 'イベント', events_path, class: 'nav-link text-dark' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to '新着店舗', vendors_path, class: 'nav-link text-dark' %> 
-        </li>
-        <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "マイページ", user_path(current_user), class: 'nav-link text-dark mr-2' %>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to 'ログイン', new_user_session_path, class: 'nav-link text-dark' %>
-          </li>
-          <li class="nav-item">
-            <%= link_to '新規登録', new_user_registration_path, class: 'nav-link text-dark' %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </nav>
-</header>
+<html>
+  <head>
+    <title>Pathfinder</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+        <%= csrf_meta_tags %>
+          <%= csp_meta_tag %>
+        <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+      <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-light" style="background-color: #90ee90;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Pathfinder</a>
+          <ul class="navbar-nav ml-auto flex-row">
+            <li class="nav-item mr-3">
+              <%= link_to 'イベント', events_path, class: 'nav-link text-dark' %>
+            </li>
+            <li class="nav-item mr-3">
+              <%= link_to '新着店舗', vendors_path, class: 'nav-link text-dark' %> 
+            </li>
+            <% if user_signed_in? %>
+              <li class="nav-item mr-3">
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, data: { confirm: '本当にログアウトしますか？' }, class: 'nav-link text-dark' %>
+              </li>
+              <li class="nav-item mr-3">
+                <%= link_to "マイページ", user_path(current_user), class: 'nav-link text-dark mr-2' %>
+              </li>
+            <% else %>
+              <li class="nav-item mr-3">
+                <%= link_to 'ログイン', new_user_session_path, class: 'nav-link text-dark' %>
+              </li>
+              <li class="nav-item mr-3">
+                <%= link_to '新規登録', new_user_registration_path, class: 'nav-link text-dark' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
+    <% flash.each do |name, msg| %>
+      <%= content_tag(:div, msg, class: "alert alert-info", role: "alert", data: {dismiss: "alert", auto_dismiss: 3000}) %>
+    <% end %>
 
-
-        <body>
     <%= yield %>
   </body>
 </html>

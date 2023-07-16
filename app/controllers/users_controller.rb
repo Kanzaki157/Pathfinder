@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:new, :create]
   def guest_sign_in
     user = User.find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64
@@ -10,7 +12,9 @@ class UsersController < ApplicationController
   end
   
   def index
+    @user = current_user
     @users = User.all
+    @popular_events = Event.left_joins(:event_favorites).group(:id).order('COUNT(event_favorites.id) DESC').limit(10)
   end
 
   # GET /users/1

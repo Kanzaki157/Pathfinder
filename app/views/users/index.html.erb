@@ -1,1 +1,63 @@
-<%= link_to 'ゲストログイン（閲覧用）', users_guest_sign_in_path, method: :post %>
+<%#= link_to 'ゲストログイン（閲覧用）', users_guest_sign_in_path, method: :post %>
+<div class="container">
+  <div class="row">
+<div class="col-2">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>人気イベント</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @popular_events.each do |event| %>
+        <tr>
+          <td><%= event.name %> : <%= event.event_favorites.count %> いいね</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+    <div class="col-6">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Apple</td>
+            <td>$1</td>
+            <td>50</td>
+          </tr>
+          <!-- More rows can go here -->
+        </tbody>
+      </table>
+    </div>
+
+<div class="col-4">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>あなたも企画しなせんか？</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @user.first_name %> <%= @user.last_name %></td> <!-- ここにユーザー名を入れます -->
+        <td>
+          <%= link_to "企画する", new_event_path, class: "btn btn-primary" %>  <!-- 「イベントを企画する」ボタン -->
+        </td>
+      </tr>
+      <!-- More rows can go here -->
+    </tbody>
+  </table>
+</div>
+
+  </div>
+</div>

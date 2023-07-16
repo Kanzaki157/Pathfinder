@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  # updateとdestroyアクションが実行される前にensure_normal_userメソッドを呼び出します。
+  before_action :ensure_normal_user, only: %i[update destroy]
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -8,7 +10,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def new
   #   super
   # end
-
+  
+  # ensure_normal_userメソッド
+  # ユーザーがゲストユーザーの場合（メールアドレスが'guest@example.com'の場合）、
+  # ユーザーを編集・削除できないようにします。ユーザーをルートパスにリダイレクトし、
+  # アラートメッセージを表示します。
+  def ensure_normal_user
+    if resource.email == 'guest@example.com'
+      redirect_to root_path, alert: 'ゲストユーザーは削除・編集できません。'
+    end
+  end
+  
+  
+  
   # POST /resource
   # def create
   #   super
@@ -51,11 +65,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
+  
+   # 新規登録後のリダイレクト先をユーザーの詳細ページに設定します。
   def after_sign_up_path_for(resource)
-    user_path
+    user_path(resource)
   end
 
   # The path used after sign up for inactive accounts.
+  
+  # 新規登録後、アカウントが非活性の場合のリダイレクト先を新規登録ページに設定します。
   def after_inactive_sign_up_path_for(resource)
     new_user_registration_path
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_11_044325) do
+ActiveRecord::Schema.define(version: 2023_07_13_053705) do
 
   create_table "event_favorites", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -21,13 +21,39 @@ ActiveRecord::Schema.define(version: 2023_07_11_044325) do
     t.index ["user_id"], name: "index_event_favorites_on_user_id"
   end
 
+  create_table "event_participants", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_event_participants_on_event_id"
+    t.index ["user_id"], name: "index_event_participants_on_user_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "vendor_id", null: false
+    t.string "name"
+    t.string "closed_on"
+    t.string "location", null: false
+    t.string "representative", null: false
+    t.integer "fax_number"
+    t.integer "phone_number", null: false
+    t.string "opening_hours"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.text "main_products", null: false
+    t.decimal "price", null: false
+    t.text "access_info"
+    t.integer "max_participants", null: false
+    t.string "website_url"
+    t.string "google_map_url"
+    t.text "contact_info"
+    t.text "description"
+    t.text "reservation_info"
+    t.string "status_based_on_count", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_events_on_user_id"
-    t.index ["vendor_id"], name: "index_events_on_vendor_id"
   end
 
   create_table "user_notifications", force: :cascade do |t|
@@ -95,8 +121,9 @@ ActiveRecord::Schema.define(version: 2023_07_11_044325) do
 
   add_foreign_key "event_favorites", "events"
   add_foreign_key "event_favorites", "users"
+  add_foreign_key "event_participants", "events"
+  add_foreign_key "event_participants", "users"
   add_foreign_key "events", "users"
-  add_foreign_key "events", "vendors"
   add_foreign_key "user_notifications", "users"
   add_foreign_key "user_notifications", "vendors"
   add_foreign_key "vendor_favorites", "users"

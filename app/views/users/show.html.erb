@@ -17,13 +17,6 @@
     </div>
 
     <div class="col-md-6">
-      <h2>お気に入りの新着店舗</h2>
-      <ul>
-        <% @user.vendor_favorites.each do |favorite| %>
-          <li><%= link_to favorite.vendor.name, favorite.vendor %></li>
-        <% end %>
-      </ul>
-
       <h2>お気に入りのイベント</h2>
       <ul>
         <% @user.event_favorites.each do |favorite| %>

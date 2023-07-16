@@ -1,0 +1,22 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        event:
+          attributes:
+            location:
+              blank: "開催地が入力されていません。"
+            phone_number:
+              blank: "電話番号が入力されていません。"
+              not_a_number: "電話番号は数字で入力してください。"
+            contact_info:
+              blank: "お問い合わせ情報が入力されていません。"
+
+ja:
+  activerecord:
+    errors:
+      models:
+        event:
+          attributes:
+            user:
+              required: "ユーザーが必要です"

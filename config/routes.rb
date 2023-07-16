@@ -1,17 +1,21 @@
 Rails.application.routes.draw do
-  
+  # 重複した devise_for :users を削除
+  # sessions と registrations をまとめて指定
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    passwords: 'users/passwords'
   }
+  
   devise_scope :user do
     post 'users/guest_sign_in', to: 'users/sessions#new_guest'
   end
   
   root 'users#index'
   
-  post '/users/guest_sign_in', to: 'users#guest_sign_in'
-  
-  post 'guest_login', to: 'sessions#guest_login'
+  # 下記の2行は上の devise_scope で既に定義しているので削除
+  # post '/users/guest_sign_in', to: 'users#guest_sign_in'
+  # post 'guest_login', to: 'sessions#guest_login'
   
   resources :users
   resources :vendors do
@@ -20,7 +24,7 @@ Rails.application.routes.draw do
   resources :user_notifications
   resources :vendor_favorites
   resources :events do
+    resource :event_participants, only: [:create, :destroy]
     resource :favorite, module: :events, only: [:create, :destroy]
   end
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
