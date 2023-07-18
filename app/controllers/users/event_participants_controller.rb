@@ -1,19 +1,24 @@
 class EventParticipantsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_event
-
+  
+  # イベントに参加するためのアクション
   def create
+    # current_userがイベントの参加者でなければ参加者を追加します。
     if @event.users.include?(current_user)
-      flash[:alert] = "You're already participating in this event."
+      flash[:alert] = "あなたはすでにこのイベントに参加しています"
     else
       @event.users << current_user
-      flash[:notice] = "You've joined the event successfully."
+      flash[:notice] = "イベントに正常に参加しました。"
     end
     redirect_to @event
   end
-
+  
+  # イベントから退出するためのアクション
   def destroy
+    # current_userがイベントの参加者であれば参加者から削除します。
     @event.users.delete(current_user)
-    flash[:notice] = "You've left the event successfully."
+    flash[:notice] = "イベントから退出しました。"
     redirect_to @event
   end
 

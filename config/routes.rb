@@ -21,10 +21,20 @@ Rails.application.routes.draw do
   resources :vendors do
     resources :vendor_favorites, only: [:create, :destroy]
   end
+  
   resources :user_notifications
+  
   resources :vendor_favorites
+  
   resources :events do
-    resource :event_participants, only: [:create, :destroy]
+      collection do
+        post :confirm
+      end
+    # 以下の行で、イベントの参加と退出に対応するルートを追加しています。
+    # POST /events/:event_id/event_participants に対応するアクションは EventParticipantsController#create
+    # DELETE /events/:event_id/event_participants/:id に対応するアクションは EventParticipantsController#destroy
+    resources :event_participants, only: [:create, :destroy]
     resource :favorite, module: :events, only: [:create, :destroy]
+    post 'join', on: :member
   end
 end

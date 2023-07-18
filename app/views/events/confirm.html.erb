@@ -1,0 +1,103 @@
+<div class="container">
+
+  <div class="text-center">
+    <h1>イベント確認</h1>
+  </div>
+
+  <div class="mx-auto col-lg-8 col-md-10">
+    <table class="table">
+      <tr>
+        <th>企画名または企業名</th>
+        <td><%= @event.representative %></td>
+      </tr>
+      <tr>
+        <th>開催地</th>
+        <td><%= @event.location %></td>
+      </tr>
+      <tr>
+        <th>電話番号</th>
+        <td><%= @event.phone_number %></td>
+      </tr>
+      <tr>
+        <th>定休日</th>
+        <td><%= @event.closed_on %></td>
+      </tr>
+      <tr>
+        <th>代表者名</th>
+        <td><%= @event.name %></td>
+      </tr>
+      <tr>
+        <th>FAX番号</th>
+        <td><%= @event.fax_number %></td>
+      </tr>
+      <tr>
+        <th>時間</th>
+        <td><%= @event.opening_hours %></td>
+      </tr>
+      <tr>
+        <th>開始日時</th>
+        <td><%= @event.start_time %></td>
+      </tr>
+      <tr>
+        <th>終了日時</th>
+        <td><%= @event.end_time %></td>
+      </tr>
+      <tr>
+        <th>主要商品</th>
+        <td><%= @event.main_products %></td>
+      </tr>
+      <tr>
+        <th>料金・価格 (円)</th>
+        <td><%= @event.price %></td>
+      </tr>
+      <tr>
+        <th>交通・アクセス</th>
+        <td><%= @event.access_info %></td>
+      </tr>
+      <tr>
+        <th>上限人数</th>
+        <td><%= @event.max_participants %></td>
+      </tr>
+      <tr>
+        <th>マイホームページ</th>
+        <td><%= @event.website_url %></td>
+      </tr>
+      <tr>
+        <th>Google Map</th>
+        <td><%= @event.google_map_url %></td>
+      </tr>
+      <tr>
+        <th>お問い合わせ</th>
+        <td><%= @event.contact_info %></td>
+      </tr>
+      <tr>
+        <th>詳細な説明</th>
+        <td><%= @event.description %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="mx-auto col-lg-8 col-md-10 mb-4">
+    <%= form_with(model: @event, url: events_path) do |form| %>
+      <%= form.hidden_field :representative %>
+      <%= form.hidden_field :location %>
+      <%= form.hidden_field :phone_number %>
+      <%= form.hidden_field :closed_on %>
+      <%= form.hidden_field :name %>
+      <%= form.hidden_field :fax_number %>
+      <%= form.hidden_field :opening_hours %>
+      <%= form.hidden_field :start_time %>
+      <%= form.hidden_field :end_time %>
+      <%= form.hidden_field :main_products %>
+      <%= form.hidden_field :price %>
+      <%= form.hidden_field :access_info %>
+      <%= form.hidden_field :max_participants %>
+      <%= form.hidden_field :website_url %>
+      <%= form.hidden_field :google_map_url %>
+      <%= form.hidden_field :contact_info %>
+      <%= form.hidden_field :description %>
+      <%= form.submit 'イベントを作成', class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+</div>

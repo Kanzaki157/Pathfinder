@@ -16,16 +16,41 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
   end
-
+  
+  def confirm
+    @event = Event.new(event_params)
+    @event.user_id = current_user.id
+    if @event.valid?
+      session[:event] = event_params # 入力情報が有効であればセッションに保存
+    else
+      render :new # 入力情報が無効であればフォーム画面に戻る
+    end
+  end
+  
+  def join
+    @event = Event.find(params[:id]) # パラメータからイベントを見つけます
+    if @event.users.include?(current_user)
+      # ユーザーが既にイベントに参加している場合、メッセージを表示
+      flash[:alert] = "あなたはすでにこのイベントに参加しています。"
+    else
+      # ユーザーをイベントの参加者として追加
+      @event.users << current_user
+      flash[:notice] = "イベントに正常に参加しました。"
+    end
+    redirect_to @event # イベントの詳細ページにリダイレクト
+  end
+  
   # 特定のイベントを編集（set_eventが先に実行される）
   def edit
+    @event = Event.find(params[:id])
   end
 
   # ログイン中のユーザーの新しいイベントを作成し、保存
   def create
     @event = current_user.events.build(event_params)
+    @event.user_id = current_user.id
     if @event.save
-      redirect_to @event, notice: 'Event was successfully created.'
+      redirect_to @event, notice: 'イベントが正常に作成されました。'
     else
       puts @event.errors.full_messages
       render :new
@@ -35,7 +60,7 @@ class EventsController < ApplicationController
   # 特定のイベントを更新（set_eventが先に実行される）
   def update
     if @event.update(event_params)
-      redirect_to @event, notice: 'Event was successfully updated.'
+      redirect_to @event, notice: 'イベントは正常に更新されました'
     else
       render :edit
     end
@@ -44,7 +69,7 @@ class EventsController < ApplicationController
   # 特定のイベントを削除（set_eventが先に実行される）
   def destroy
     @event.destroy
-    redirect_to events_url, notice: 'Event was successfully destroyed.'
+    redirect_to events_url, notice: 'イベントは正常に削除されました'
   end
 
   private

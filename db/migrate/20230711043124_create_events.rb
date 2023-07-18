@@ -6,7 +6,7 @@ class CreateEvents < ActiveRecord::Migration[6.1]
       t.string :closed_on # イベントが終了する日付
       t.string :location, null: false # イベントの開催地
       t.string :representative, null: false # イベントの代表者
-      t.integer :fax_number # イベントの代表者
+      t.integer :fax_number # FAX番号
       t.integer :phone_number, null: false # 電話番号
       t.string :opening_hours # 開催時間
       t.datetime :start_time #開始日時
@@ -20,7 +20,7 @@ class CreateEvents < ActiveRecord::Migration[6.1]
       t.text :contact_info # 連絡先情報
       t.text :description #詳細な説明
       t.text :reservation_info # 予約に関する情報
-      t.string :status_based_on_count, null: false # 参加者数に基づくステータス
+      t.string :status_based_on_count # 参加者数に基づくステータス
       t.timestamps
     end
   end

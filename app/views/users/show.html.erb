@@ -11,17 +11,33 @@
           <th>メールアドレス</th>
           <td><%= @user.email %></td>
         </tr>
-        <!-- 他の情報もここに追加 -->
       </table>
       <%= link_to 'プロフィール編集', edit_user_registration_path %>
     </div>
 
     <div class="col-md-6">
-      <h2>お気に入りのイベント</h2>
+      <h2>お気に入りしたイベント</h2>
       <ul>
         <% @user.event_favorites.each do |favorite| %>
           <li><%= link_to favorite.event.name, favorite.event %></li>
         <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <!-- 中略 -->
+    <div class="col-md-6">
+      <h2>作成したイベント</h2>
+      <ul>
+        <% @user_events.each do |event| %>
+          <li>
+            <%= link_to event.representative, event %> 
+            <%= link_to '削除', event, method: :delete, data: { confirm: '本当に削除しますか？' } %>
+          </li>
+        <% end %>
+        
       </ul>
     </div>
   </div>

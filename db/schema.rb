@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2023_07_13_053705) do
     t.text "contact_info"
     t.text "description"
     t.text "reservation_info"
-    t.string "status_based_on_count", null: false
+    t.string "status_based_on_count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_events_on_user_id"

@@ -10,9 +10,8 @@ class Event < ApplicationRecord
   belongs_to :user
     # 関連付け
   has_many :event_participants  # Eventが参加者と関連付けされています
-  has_many :users, through: :event_participants  # EventがUserと中間テーブルを通じて関連付けされています
   has_many :event_favorites  # Eventがお気に入りと関連付けされています
-  
+  has_many :users, through: :event_participants, dependent: :destroy
   # バリデーション
   validates :representative, presence: true  # 企業名または企画名が存在すること
   validates :location, presence: true  # 開催地が存在すること

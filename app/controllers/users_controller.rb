@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :join_event, :leave_event]
   before_action :authenticate_user!, except: [:new, :create]
+  
   def guest_sign_in
     user = User.find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64
@@ -14,56 +15,63 @@ class UsersController < ApplicationController
   def index
     @user = current_user
     @users = User.all
+    # 取得したイベントを「いいね」の数で並び替え、上位10件を取得する
     @popular_events = Event.left_joins(:event_favorites).group(:id).order('COUNT(event_favorites.id) DESC').limit(10)
+    # イベントを作成日時の降順に並び替え、上位10件を取得する
+    @latest_events = Event.order(created_at: :desc).limit(10)
   end
 
-  # GET /users/1
   def show
     @user = User.find(params[:id])
+    @user_events = @user.events # ユーザーが作成したイベントを取得
   end
 
-  # GET /users/new
   def new
     @user = User.new
   end
 
-  # GET /users/1/edit
   def edit
   end
 
-  # POST /users
   def create
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
+      redirect_to @user, notice: 'ユーザーが正常に作成されました。'
     else
       render :new
     end
   end
 
-  # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to @user, notice: 'ユーザーは正常に更新されました。'
     else
       render :edit
     end
   end
 
-  # DELETE /users/1
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully destroyed.'
+    redirect_to users_url, notice: 'ユーザーは正常に破棄されました。'
   end
-
+  
+  def join_event
+    event = Event.find(params[:event_id])
+    unless @user.events.include?(event)
+      @user.events << event
+      redirect_to event, notice: 'イベントに参加しました。'
+    else
+      redirect_to event, notice: 'すでにこのイベントに参加しています。'
+    end
+  end
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # コールバックを使用して、アクション間で共通の設定や制約を共有します。
     def set_user
       @user = User.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # 信頼できるパラメータのリストのみを許可します。
     def user_params
       params.require(:user).permit(:last_name, :first_name, :last_name_kana, :first_name_kana, :email, :password, :address, :post_code, :phone_number, :is_delete)
     end
