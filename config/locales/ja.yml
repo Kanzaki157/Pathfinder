@@ -4,19 +4,20 @@ ja:
       models:
         event:
           attributes:
+            representative:
+              blank: "イベント名が入力されていません。"
             location:
               blank: "開催地が入力されていません。"
-            phone_number:
-              blank: "電話番号が入力されていません。"
-              not_a_number: "電話番号は数字で入力してください。"
-            contact_info:
-              blank: "お問い合わせ情報が入力されていません。"
-
-ja:
-  activerecord:
-    errors:
-      models:
-        event:
-          attributes:
-            user:
-              required: "ユーザーが必要です"
+            representative:
+              blank: "イベントの企画者名が入力されていません。"
+            start_time:
+              blank: "イベントの開催日が入力されていません。"
+            end_tim:
+              blank: "イベントの終了日が入力されていません。"
+            main_products:
+              blank: "主要商品が入力されていません。"
+            max_participants:
+              blank: "参加者の上限人数が入学されておりません"
+              not_a_number: "数字で入力してください。"
+            description:
+              blank: "説明が入力されていません。"

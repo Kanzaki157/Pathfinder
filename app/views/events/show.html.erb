@@ -1,34 +1,59 @@
 <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
+  <div class="card">
+    <div class="row justify-content-center">
+      <div class="col-md-6"> <!-- ここを8から6に変更 -->
         <div class="card-body">
-
           <h2 class="mb-3"><%= @event.representative %></h2>
-
           <p><strong>開催地:</strong> <%= @event.location %></p>
-          <p><strong>電話番号:</strong> <%= @event.phone_number %></p>
-          <p><strong>定休日:</strong> <%= @event.closed_on %></p>
           <p><strong>代表者名:</strong> <%= @event.name %></p>
-          <p><strong>FAX番号:</strong> <%= @event.fax_number %></p>
-          <p><strong>営業時間:</strong> <%= @event.opening_hours %></p>
           <p><strong>開始日時:</strong> <%= @event.start_time %></p>
           <p><strong>終了日時:</strong> <%= @event.end_time %></p>
           <p><strong>主要商品:</strong> <%= @event.main_products %></p>
-          <p><strong>料金・価格 (円):</strong> <%= @event.price %></p>
-          <p><strong>交通・アクセス:</strong> <%= @event.access_info %></p>
           <p><strong>上限人数:</strong> <%= @event.max_participants %></p>
-          <p><strong>ウェブサイト:</strong> <%= link_to @event.website_url, @event.website_url, target: "_blank" %></p>
-          <p><strong>Google Map:</strong> <%= link_to @event.google_map_url, @event.google_map_url, target: "_blank" %></p>
-          <p><strong>お問い合わせ:</strong> <%= @event.contact_info %></p>
           <p><strong>詳細な説明:</strong> <%= @event.description %></p>
-
-          <%= link_to '戻る', root_path, class: 'btn btn-secondary' %>
-          <div class="join-button-container">
-            <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary' %>
+          <h3>参加者一覧</h3>
+          <ul>
+            <% @event.participants.each do |user| %>
+              <li>
+                <%= "#{user.first_name} #{user.last_name}" %>
+                <% if current_user == @event.organizer %>
+                  <%= link_to '削除', remove_participant_event_path(@event, user_id: user.id), method: :delete, class: 'btn btn-danger' %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+          <% if current_user == @event.organizer %>
+            <h3>管理機能</h3>
+            <%= button_to 'イベントをキャンセルする', { controller: "events", action: "cancel", id: @event.id }, method: :post, class: 'btn btn-danger' %>
+          <% end %>
+          <div class="join-button-container d-flex justify-content-end">
+            <% unless @event.participants.count >= @event.max_participants %>
+              <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary' %>
+            <% end %>
           </div>
         </div>
+    </div>
+    <div class="col-md-4"> 
+      <div class="card mt-4">
+        <div class="card-header"></div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th><%= @event.name %></th>
+            </tr>
+              <td>
+                <% if current_user != @user %>
+                  <% if current_user.following?(@user) %>
+                    <%= link_to "フォロー外す", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
+                  <% else %>
+                    <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class:"btn btn-success" %>
+                  <% end %>
+                <% end %>
+              </td>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
   </div>
 </div>

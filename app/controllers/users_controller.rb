@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :join_event, :leave_event]
   before_action :authenticate_user!, except: [:new, :create]
-  
   def guest_sign_in
     user = User.find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64
@@ -24,6 +23,10 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @user_events = @user.events # ユーザーが作成したイベントを取得
+    
+    @user = User.find(params[:id])
+    @following_users = @user.following_users
+    @follower_users = @user.follower_users
   end
 
   def new
@@ -65,12 +68,25 @@ class UsersController < ApplicationController
       redirect_to event, notice: 'すでにこのイベントに参加しています。'
     end
   end
+  
+  def follows
+    user = User.find(params[:id])
+    @users = user.following_users
+  end
+  
+  def followers
+    user = User.find(params[:id])
+    @user = user.follower_users
+  end
+  
   private
     # コールバックを使用して、アクション間で共通の設定や制約を共有します。
     def set_user
       @user = User.find(params[:id])
     end
+    
 
+    
     # 信頼できるパラメータのリストのみを許可します。
     def user_params
       params.require(:user).permit(:last_name, :first_name, :last_name_kana, :first_name_kana, :email, :password, :address, :post_code, :phone_number, :is_delete)

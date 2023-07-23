@@ -10,6 +10,9 @@ class EventsController < ApplicationController
   
   # 特定のイベントを表示（set_eventが先に実行される）
   def show
+    @user = @event.organizer # イベントの主催者を取得
+    @organizer = @event.organizer # イベントの主催者を取得
+    @participants = @event.participants # イベントの参加者を取得
   end
 
   # 新しいイベントのインスタンスを作成
@@ -29,22 +32,44 @@ class EventsController < ApplicationController
   
   def join
     @event = Event.find(params[:id]) # パラメータからイベントを見つけます
-    if @event.users.include?(current_user)
+    if @event.participants.include?(current_user)
       # ユーザーが既にイベントに参加している場合、メッセージを表示
       flash[:alert] = "あなたはすでにこのイベントに参加しています。"
     else
       # ユーザーをイベントの参加者として追加
-      @event.users << current_user
+      @event.participants << current_user
       flash[:notice] = "イベントに正常に参加しました。"
     end
     redirect_to @event # イベントの詳細ページにリダイレクト
+  end
+  
+  def cancel
+  @event = Event.find(params[:id])
+    if @event.organizer == current_user
+      @event.destroy
+      redirect_to root_path, notice: 'イベントがキャンセルされました'
+    else
+      redirect_to @event, alert: 'あなたはこのイベントをキャンセルする権限がありません'
+    end
   end
   
   # 特定のイベントを編集（set_eventが先に実行される）
   def edit
     @event = Event.find(params[:id])
   end
-
+  
+  def remove_participant
+    @event = Event.find(params[:id])
+    @user = User.find(params[:user_id])
+    
+    if @event.organizer == current_user
+      @event.participants.delete(@user)
+      redirect_to @event, notice: '参加者が削除されました。'
+    else
+      redirect_to @event, alert: 'あなたはこのイベントから参加者を削除する権限がありません。'
+    end
+  end
+  
   # ログイン中のユーザーの新しいイベントを作成し、保存
   def create
     @event = current_user.events.build(event_params)

@@ -6,19 +6,17 @@
         <thead>
           <tr>
             <th>人気イベント</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @popular_events.each do |event| %>
-          <tr>
+              </tr>
+                </thead>
+                  <tbody>
+                <% @popular_events.each do |event| %>
+              <tr>
             <td><%= event.representative %> : <%= event.event_favorites.count %> いいね</td>
           </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-
-
 <div class="col-6 mt-5">
   <h2 class="center-text">新着イベント</h2>
   <div class="row">
@@ -27,7 +25,7 @@
         <div class="card mb-4">
           <div class="card-body">
             <h8 class="card-title"><%= event.representative %></h5>
-            <p class="card-text">現在の参加者数: <%= event.users.count %></p>
+            <p class="card-text">現在の参加者: <%= event.participants.count %></p>
             <%= link_to '詳細を見る', event, class: "card-link" %>
           </div>
         </div>
@@ -35,28 +33,23 @@
     <% end %>
   </div>
 </div>
-
-
-
-
 <div class="col-4 mt-5">
   <table class="table table-bordered">
     <thead>
       <tr>
         <th>User</th>
         <th>あなたも企画しなせんか？</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><%= @user.first_name %><%= @user.last_name %></td> <!-- ここにユーザー名を入れます -->
-        <td>
-          <%= link_to "企画する", new_event_path, class: "btn btn-primary" %>  <!-- 「イベントを企画する」ボタン -->
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-  </div>
-</div>
+          </tr>
+            </thead>
+              <tbody>
+                <tr>
+                  <td><%= @user.first_name %><%= @user.last_name %></td> <!-- ここにユーザー名を入れます -->
+                    <td>
+                  <%= link_to "企画する", new_event_path, class: "btn btn-primary" %>  <!-- 「イベントを企画する」ボタン -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>

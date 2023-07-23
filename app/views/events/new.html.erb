@@ -4,7 +4,6 @@
       <div class="card">
         <div class="card-body">
           <%= form_with(model: @event, url: confirm_events_path) do |form| %>
-
             <div class="mb-3">
               <%= form.label :representative, '企画名または企業名', class: 'form-label' %>
                 <%= form.text_field :representative, class: 'form-control' %>
@@ -15,7 +14,7 @@
                   <% end %>
                 <small class="form-text text-muted">イベント名または、企業名をフルネームで入力してください。</small>
             </div>
-
+            
             <div class="mb-3">
               <%= form.label :location, "開催地", class: 'form-label' %>
                 <%= form.text_field :location, class: "form-control" %>
@@ -26,30 +25,6 @@
                   <% end %>
                 <small class="form-text text-muted">イベントの開催地を具体的に記載してください。Google Mapsで検索可能な住所が理想的です。</small>
             </div>
-
-
-            <div class="mb-3">
-              <%= form.label :phone_number, "電話番号", class: 'form-label' %>
-              <%= form.telephone_field :phone_number, class: "form-control" %>
-              <% if @event.errors[:phone_number].any? %>
-                <div class="alert alert-danger mt-2">
-                  <%= @event.errors[:phone_number].join(", ") %>
-                </div>
-              <% end %>
-              <small class="form-text text-muted">ハイフン(-)を含まない電話番号を記載してください。</small>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :closed_on, "定休日", class: 'form-label' %>
-                <%= form.text_field :closed_on, class: "form-control" %>
-                  <% if @event.errors[:closed_on].any? %>
-                    <div class="alert alert-danger mt-2">
-                      <%= @event.errors[:closed_on].join(", ") %>
-                    </div>
-                  <% end %>
-                <small class="form-text text-muted">定休日を具体的に記載してください。</small>
-            </div>
-
             <div class="mb-3">
               <%= form.label :name, "代表者名", class: 'form-label' %>
                 <%= form.text_field :name, class: "form-control" %>
@@ -60,83 +35,39 @@
                   <% end %>
                 <small class="form-text text-muted">代表者のフルネームを入力してください。</small>
             </div>
-
-            <div class="mb-3">
-              <%= form.label :fax_number, "FAX番号", class: 'form-label' %>
-                <%= form.telephone_field :fax_number, class: "form-control" %>
-                  <% if @event.errors[:fax_number].any? %>
-                    <div class="alert alert-danger mt-2">
-                      <%= @event.errors[:fax_number].join(", ") %>
-                    </div>
-                  <% end %>
-                <small class="form-text text-muted">必要であればFAX番号を入力してください。</small>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :opening_hours, "時間", class: 'form-label' %>
-              <%= form.text_field :opening_hours, class: "form-control" %>
-              <% if @event.errors[:opening_hours].any? %>
-                <div class="alert alert-danger mt-2">
-                  <%= @event.errors[:opening_hours].join(", ") %>
-                </div>
-              <% end %>
-              <small class="form-text text-muted">営業時間を具体的に記載してください。</small>
-            </div>
+            
             <div class="mb-3">
               <%= form.label :start_time, "開始日時", class: 'form-label' %>
-              <%= form.datetime_field :start_time, class: "form-control" %>
-              <% if @event.errors[:start_time].any? %>
-                <div class="alert alert-danger mt-2">
-                  <%= @event.errors[:start_time].join(", ") %>
-                </div>
-              <% end %>
-              <small class="form-text text-muted">イベントの開始日時を入力してください。</small>
+                <%= form.datetime_field :start_time, class: "form-control" %>
+                  <% if @event.errors[:start_time].any? %>
+                    <div class="alert alert-danger mt-2">
+                      <%= @event.errors[:start_time].join(", ") %>
+                    </div>
+                  <% end %>
+                <small class="form-text text-muted">イベントの開始日時を入力してください。</small>
             </div>
             
             <div class="mb-3">
               <%= form.label :end_time, "終了日時", class: 'form-label' %>
-              <%= form.datetime_field :end_time, class: "form-control" %>
-              <% if @event.errors[:end_time].any? %>
-                <div class="alert alert-danger mt-2">
-                  <%= @event.errors[:end_time].join(", ") %>
-                </div>
-              <% end %>
-              <small class="form-text text-muted">イベントの終了日時を入力してください。</small>
+                <%= form.datetime_field :end_time, class: "form-control" %>
+                  <% if @event.errors[:end_time].any? %>
+                    <div class="alert alert-danger mt-2">
+                      <%= @event.errors[:end_time].join(", ") %>
+                    </div>
+                  <% end %>
+                 <small class="form-text text-muted">イベントの終了日時を入力してください。</small>
             </div>
 
             <div class="mb-3">
               <%= form.label :main_products, "主要商品", class: 'form-label' %>
-              <%= form.text_area :main_products, class: "form-control" %>
-              <% if @event.errors[:main_products].any? %>
-                <div class="alert alert-danger mt-2">
-                  <%= @event.errors[:main_products].join(", ") %>
-                </div>
-              <% end %>
-              <small class="form-text text-muted">主に取り扱っている商品やサービスを具体的に記載してください。</small>
-            </div>
-
-             <div class="mb-3">
-              <%= form.label :price, "料金・価格 (円)", class: 'form-label' %>
-                <%= form.number_field :price, class: "form-control" %>
-                  <% if @event.errors[:price].any? %>
+                <%= form.text_area :main_products, class: "form-control" %>
+                  <% if @event.errors[:main_products].any? %>
                     <div class="alert alert-danger mt-2">
-                      <%= @event.errors[:price].join(", ") %>
+                      <%= @event.errors[:main_products].join(", ") %>
                     </div>
                   <% end %>
-                <small class="form-text text-muted">商品やサービスの平均価格を記載してください。</small>
+                <small class="form-text text-muted">主に取り扱っている商品やサービスを具体的に記載してください。</small>
             </div>
-
-
-            <div class="mb-3">
-              <%= form.label :access_info, "交通・アクセス", class: 'form-label' %>
-                <%= form.text_area :access_info, class: "form-control" %>
-                  <% if @event.errors[:access_info].any? %>
-                    <div class="alert alert-danger mt-2">
-                      <%= @event.errors[:access_info].join(", ") %>
-                    </div>
-                  <% end %>
-                <small class="form-text text-muted">最寄りの駅やバス停、駐車場の有無などアクセスに関する情報を記載してください。</small>
-              </div>
 
             <div class="mb-3">
               <%= form.label :max_participants, "上限人数", class: 'form-label' %>
@@ -147,39 +78,6 @@
                     </div>
                   <% end %>
                 <small class="form-text text-muted">イベントの参加上限人数を入力してください。</small>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :website_url, "マイホームページ", class: 'form-label' %>
-                <%= form.url_field :website_url, class: "form-control" %>
-                  <% if @event.errors[:website_url].any? %>
-                    <div class="alert alert-danger mt-2">
-                      <%= @event.errors[:website_url].join(", ") %>
-                    </div>
-                  <% end %>
-                <small class="form-text text-muted">あなたのウェブサイトやSNSのURLを記載してください。</small>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :google_map_url, "Google Map", class: 'form-label' %>
-              <%= form.url_field :google_map_url, class: "form-control" %>
-              <% if @event.errors[:google_map_url].any? %>
-                <div class="alert alert-danger mt-2">
-                  <%= @event.errors[:google_map_url].join(", ") %>
-                </div>
-              <% end %>
-              <small class="form-text text-muted">Google MapのURLを記載してください。</small>
-            </div>
-
-            <div class="mb-3">
-              <%= form.label :contact_info, "お問い合わせ", class: 'form-label' %>
-                <%= form.text_area :contact_info, class: "form-control" %>
-                  <% if @event.errors[:contact_info].any? %>
-                    <div class="alert alert-danger mt-2">
-                      <%= @event.errors[:contact_info].join(", ") %>
-                    </div>
-                  <% end %>
-                <small class="form-text text-muted">お問い合わせ方法を記載してください。電話番号やメールアドレスなど。</small>
             </div>
 
             <div class="mb-3">

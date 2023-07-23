@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   
@@ -11,11 +12,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
-  # 以下はユーザーと他のモデルとの関連付けを行います。
-  # お気に入りのベンダーとイベントを管理します。
-  has_many :vendor_favorites
-  has_many :favorited_vendors, through: :vendor_favorites, source: :vendor
-  
   # ユーザーが参加するイベントを管理します。
   has_many :event_favorites
   has_many :favorited_events, through: :event_favorites, source: :event
@@ -23,7 +19,15 @@ class User < ApplicationRecord
   # ユーザーが参加するイベントを管理します。
   has_many :event_participants
   has_many :events, through: :event_participants
-
+  
+  # フォローをした、されたの関係
+  has_many :followers, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :followeds, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  
+  # 一覧画面で使う
+  has_many :following_users, through: :followers, source: :followed
+  has_many :follower_users, through: :followeds, source: :follower
+  
   # ゲストユーザーを作成または検索します。
   # ゲストメールアドレスがすでに存在する場合はそのユーザーを返し、
   # 存在しない場合は新たにゲストユーザーを作成します。
@@ -40,4 +44,20 @@ class User < ApplicationRecord
       user.phone_number = '09012345678'  # phone_numberに対しても値を設定
     end
   end
+  
+  #　フォローしたときの処理
+  def follow(user_id)
+    followers.create(followed_id: user_id)
+  end
+  
+  #　フォローを外すときの処理
+  def unfollow(user_id)
+    followers.find_by(followed_id: user_id).destroy
+  end
+  
+  #フォローしていればtrueを返す
+  def following?(user)
+    following_users.include?(user)
+  end	
+  
 end

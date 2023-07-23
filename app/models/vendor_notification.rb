@@ -1,2 +1,0 @@
-class VendorNotification < ApplicationRecord
-end

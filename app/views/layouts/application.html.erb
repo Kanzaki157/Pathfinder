@@ -9,18 +9,17 @@
         <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <header>
       <nav class="navbar navbar-light" style="background-color: #90ee90;">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Pathfinder</a>
           <ul class="navbar-nav ml-auto flex-row">
-            <li class="nav-item mr-3">
-              <%= link_to 'イベント', events_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item mr-3">
-              <%= link_to '新着店舗', vendors_path, class: 'nav-link text-dark' %> 
-            </li>
+            <% if current_user.admin? %>
+              <li class="nav-item mr-3">
+                <%= link_to '管理者', admin_users_path, class: 'nav-link text-dark' %>
+              </li>
+            <% end %>
             <% if user_signed_in? %>
               <li class="nav-item mr-3">
                 <%= link_to "ログアウト", destroy_user_session_path, method: :delete, data: { confirm: '本当にログアウトしますか？' }, class: 'nav-link text-dark' %>
@@ -40,11 +39,10 @@
         </div>
       </nav>
     </header>
-
-    <% flash.each do |name, msg| %>
-      <%= content_tag(:div, msg, class: "alert alert-info", role: "alert", data: {dismiss: "alert", auto_dismiss: 3000}) %>
-    <% end %>
-
-    <%= yield %>
-  </body>
+      <% flash.each do |name, msg| %>
+        <%= content_tag(:div, msg, class: "alert alert-info", role: "alert", data: {dismiss: "alert", auto_dismiss: 3000}) %>
+          <% end %>
+        <%= yield %>
+      <%= render 'layouts/footer' %>
+    </body>
 </html>
