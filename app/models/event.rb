@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   #   location = "&location=#{URI.encode(location)}"
   #   "#{base_url}#{text}#{dates}#{details}#{location}"
   # end
-  
+  has_one_attached :image
   # Event は User モデルと関連づけられています。ここでは User を 'organizer' として扱っており、
   # 外部キーとして 'user_id' を使用しています。これにより、各イベントはユーザ（開催者）に所属していると扱われます。
   belongs_to :organizer, class_name: "User", foreign_key: "user_id"
@@ -32,5 +32,10 @@ class Event < ApplicationRecord
   # バリデーション
   validates :representative, presence: true  # 企業名または企画名が存在すること
   validates :location, presence: true  # 開催地が存在すること
-  validates :main_products, presence: true  # 主要商品が存在すること
+  validates :end_time, presence: true  # 主要商品が存在すること
+  validates :start_time, presence: true
+  validates :category, presence: true
+  validates :name, presence: true
+  validates :main_products, presence: true
+  validates :description, presence: true
 end

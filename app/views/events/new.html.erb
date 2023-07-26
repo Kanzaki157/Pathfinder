@@ -16,6 +16,17 @@
             </div>
             
             <div class="mb-3">
+              <%= form.label :category, "カテゴリ", class: 'form-label' %>
+              <%= form.select :category, ['お祭り', '体験', '出会い', 'その他'], {}, class: "form-control" %>
+              <% if @event.errors[:category].any? %>
+                <div class="alert alert-danger mt-2">
+                  <%= @event.errors[:category].join(", ") %>
+                </div>
+              <% end %>
+              <small class="form-text text-muted">イベントのカテゴリーを選択してください。</small>
+            </div>
+            
+            <div class="mb-3">
               <%= form.label :location, "開催地", class: 'form-label' %>
                 <%= form.text_field :location, class: "form-control" %>
                   <% if @event.errors[:location].any? %>

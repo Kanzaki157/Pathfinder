@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   
   root 'users#index'
   namespace :admin do
-    resources :users, only: [:index] do
+    resources :users, only: [:index, :destroy] do
       member do
         put :toggle_active
       end
@@ -41,7 +41,8 @@ Rails.application.routes.draw do
     # POST /events/:event_id/event_participants に対応するアクションは EventParticipantsController#create
     # DELETE /events/:event_id/event_participants/:id に対応するアクションは EventParticipantsController#destroy
     resources :event_participants, only: [:create, :destroy]
-    resource :favorite, module: :events, only: [:create, :destroy]
+    resource :favorite, only: [:create, :destroy], controller: 'event_favorites'
+    
     post 'join', on: :member
     post 'cancel', on: :member
     delete 'remove_participant', on: :member

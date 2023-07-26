@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   # 特定のアクションを実行する前に、対象のイベントを設定
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :join]
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
   # 全てのイベントを取得
@@ -12,7 +12,8 @@ class EventsController < ApplicationController
   def show
     @user = @event.organizer # イベントの主催者を取得
     @organizer = @event.organizer # イベントの主催者を取得
-    @participants = @event.participants # イベントの参加者を取得
+    # @participants = @event.participants.filter{|user| user.email != "guest@example.com"} # イベントの参加者を取得
+    @participants = @event.participants
   end
 
   # 新しいイベントのインスタンスを作成
@@ -106,6 +107,6 @@ class EventsController < ApplicationController
   
   # フォームから受け取るパラメータを制限
   def event_params
-  params.require(:event).permit(:user_id, :name, :location, :closed_on, :representative, :fax_number, :opening_hours, :main_products, :price, :access_info, :website_url, :google_map_url, :contact_info, :reservation_info, :status_based_on_count, :phone_number, :description, :max_participants, :start_time, :end_time)
+  params.require(:event).permit(:user_id, :name, :location, :closed_on, :representative, :fax_number, :opening_hours, :main_products, :price, :access_info, :website_url, :google_map_url, :contact_info, :reservation_info, :status_based_on_count, :phone_number, :description, :max_participants, :start_time, :end_time, :category, :image)
   end
 end

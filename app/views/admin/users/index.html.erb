@@ -1,22 +1,28 @@
-<div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ユーザー名</th>
-        <th>メールアドレス</th>
-        <th>状態</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
         <tr>
-          <td>%= user.first_name %> <%= user.last_name %></td>
-          <td><%= user.email %></td>
-          <td><%= user.active ? 'アクティブ' : '非アクティブ' %></td>
-          <td><%= link_to '状態の変更', toggle_active_admin_user_path(user), method: :put, class: 'btn btn-warning' %></td>
+          <th>ユーザー名</th>
+          <th>メールアドレス</th>
+          <th>状態</th>
+          <th>Action</th>
+          <th>ユーザーの削除</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.first_name %> <%= user.last_name %></td>
+            <td><%= user.email %></td>
+            <td><%= user.active ? 'アクティブ' : '非アクティブ' %></td>
+            <td><%= link_to '状態の変更', toggle_active_admin_user_path(user), method: :put, class: 'btn btn-warning' %></td>
+            <td><%= link_to '削除', admin_user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+

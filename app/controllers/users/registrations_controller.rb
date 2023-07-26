@@ -15,12 +15,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # ユーザーがゲストユーザーの場合（メールアドレスが'guest@example.com'の場合）、
   # ユーザーを編集・削除できないようにします。ユーザーをルートパスにリダイレクトし、
   # アラートメッセージを表示します。
+  # def ensure_normal_user
+  #   if resource.email == 'guest@example.com'
+  #     redirect_to root_path, alert: 'ゲストユーザーは削除・編集できません。'
+  #   else
+  #     redirect_to root_path
+  #   end
+  # end
   def ensure_normal_user
     if resource.email == 'guest@example.com'
-      redirect_to root_path, alert: 'ゲストユーザーは削除・編集できません。'
+    redirect_to root_path, alert: 'ゲストユーザーは削除・編集できません。'
     end
   end
-  
   
   
   # POST /resource

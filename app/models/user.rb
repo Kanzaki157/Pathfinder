@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   
@@ -11,6 +10,8 @@ class User < ApplicationRecord
   # :validatable はメールとパスワードのバリデーションを提供する。
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+         
+  has_one_attached :image
   
   # ユーザーが参加するイベントを管理します。
   has_many :event_favorites
@@ -31,6 +32,7 @@ class User < ApplicationRecord
   # ゲストユーザーを作成または検索します。
   # ゲストメールアドレスがすでに存在する場合はそのユーザーを返し、
   # 存在しない場合は新たにゲストユーザーを作成します。
+  
   def self.guest
     find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64 # パスワードはランダムに生成
@@ -44,6 +46,11 @@ class User < ApplicationRecord
       user.phone_number = '09012345678'  # phone_numberに対しても値を設定
     end
   end
+  
+  def already_favorited?(event)
+    self.favorited_events.include?(event)
+  end
+
   
   #　フォローしたときの処理
   def follow(user_id)

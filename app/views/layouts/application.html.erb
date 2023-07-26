@@ -5,9 +5,14 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
         <%= csrf_meta_tags %>
           <%= csp_meta_tag %>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
         <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
         <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+      <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+      <script src="https://kit.fontawesome.com/dc609b4bc1.js" crossorigin="anonymous"></script>
+      <!--<link rel="stylesheet" href="style.css" />-->
     </head>
   <body class="d-flex flex-column min-vh-100">
     <header>
@@ -15,33 +20,39 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Pathfinder</a>
           <ul class="navbar-nav ml-auto flex-row">
-            <% if current_user.admin? %>
+            <% if current_user != nil && current_user.admin? %>
               <li class="nav-item mr-3">
                 <%= link_to '管理者', admin_users_path, class: 'nav-link text-dark' %>
               </li>
             <% end %>
             <% if user_signed_in? %>
               <li class="nav-item mr-3">
-                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, data: { confirm: '本当にログアウトしますか？' }, class: 'nav-link text-dark' %>
+                <%= link_to destroy_user_session_path, method: :delete, data: { confirm: '本当にログアウトしますか？' }, class: 'nav-link text-dark' do %>
+                  ログアウト<i class="fas fa-sign-out-alt"></i>
+                <% end %>
               </li>
               <li class="nav-item mr-3">
-                <%= link_to "マイページ", user_path(current_user), class: 'nav-link text-dark mr-2' %>
+                <%= link_to user_path(current_user), class: 'nav-link text-dark mr-2' do %>
+                  マイページ <i class="far fa-user"></i>
+                <% end %>
               </li>
             <% else %>
               <li class="nav-item mr-3">
-                <%= link_to 'ログイン', new_user_session_path, class: 'nav-link text-dark' %>
+                <%= link_to new_user_session_path, class: 'nav-link text-dark' do %>
+                  ログイン<i class="fas fa-sign-in-alt"></i>
+                <% end %>  
               </li>
               <li class="nav-item mr-3">
-                <%= link_to '新規登録', new_user_registration_path, class: 'nav-link text-dark' %>
+                <%= link_to  new_user_registration_path, class: 'nav-link text-dark' do %>
+                  新規登録<i class="fas fa-plus"></i>
+                <% end %>
               </li>
             <% end %>
           </ul>
         </div>
       </nav>
     </header>
-      <% flash.each do |name, msg| %>
-        <%= content_tag(:div, msg, class: "alert alert-info", role: "alert", data: {dismiss: "alert", auto_dismiss: 3000}) %>
-          <% end %>
+  
         <%= yield %>
       <%= render 'layouts/footer' %>
     </body>

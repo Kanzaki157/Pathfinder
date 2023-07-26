@@ -6,13 +6,15 @@ ja:
           attributes:
             representative:
               blank: "イベント名が入力されていません。"
+            name:
+              blank: "代表者の名前がありません"
             location:
               blank: "開催地が入力されていません。"
             representative:
               blank: "イベントの企画者名が入力されていません。"
             start_time:
               blank: "イベントの開催日が入力されていません。"
-            end_tim:
+            end_time:
               blank: "イベントの終了日が入力されていません。"
             main_products:
               blank: "主要商品が入力されていません。"

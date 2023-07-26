@@ -12,4 +12,15 @@
  *
  *= require_tree .
  *= require_self
+ * 
  */
+ .navbar-brand {
+    font-family: 'Noto Serif JP', serif;
+    padding-left: 20px;
+    margin-left: 20px;
+ }
+ 
+ .navbar-nav {
+    margin-right: 20px;
+    padding-right: 20px;
+}

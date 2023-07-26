@@ -13,7 +13,25 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application"; 
 
+import Swiper from 'swiper';
+import 'swiper/swiper-bundle.css';
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+document.addEventListener('turbolinks:load', () => {
+  console.log("turbolinks:load");
+  const flashMessages = document.querySelector(".flash_messages");
+  if (flashMessages) {
+    // Set transition property for flashMessages element
+    flashMessages.style.transition = 'opacity 1s ease-in-out';
+    setTimeout(function(){
+      flashMessages.style.opacity = 0;
+      setTimeout(function(){
+        flashMessages.remove();
+      }, 1000);
+    }, 1000);
+  }
+});
+  
