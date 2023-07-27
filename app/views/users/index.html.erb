@@ -6,7 +6,6 @@
     <div class="swiper-slide"><%= image_tag 'yellow_00073.jpg' %></div>
   </div>
 </div>
-  <%= render 'flash_messages' %>
 <div class="container">
   <div class="row">
     <div class="col-3 mt-5">
@@ -26,7 +25,7 @@
       </table>
     </div>
   <div class="col-9 mt-5">
-    <h2 class="center-text">新着イベント</h2>
+    <h2 class="center-text">開催中のイベント一覧</h2>
       <div class="row">
         <% @latest_events.each do |event| %>
       <div class="col-md-4">
@@ -35,12 +34,10 @@
             <tr>
               <td style="width:80%">
                 <div style="padding: 0.6rem 1.25rem">
-                  <%= event.representative %>
                 </div>
               </td>
               <td style="width:20%;border-left: solid thin #cccccc;">
                 <div style="padding: 0.6rem 1.25rem">
-                  abc
                 </div>
               </td>
             </tr>
@@ -57,32 +54,32 @@
     <% end %>
   </div>
 </div>
-<% if user_signed_in? %>
-<div class="col-4 mt-5">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>あなたも企画しなせんか？</th>
-          </tr>
-            </thead>
-              <tbody>
-                <tr>
-                  <td><%= @user.first_name %><%= @user.last_name %></td>
-                  <td>
-                    <%= link_to "企画する", new_event_path, class: "btn btn-primary" %> 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-        <% end %>
-      </div>
-    </div>
-    
+
+<% if user_signed_in? && current_user.email != "guest@example.com" %>
+  <div class="col-4 mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>あなたも企画しなせんか？</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @user.first_name %><%= @user.last_name %></td>
+          <td>
+            <%= link_to "企画する", new_event_path, class: "btn btn-primary" %> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+</div>
+</div>
 <% @categories_events.each do |category, events| %>
   <div class="container mt-5">
-    <h3 style="background-size: contain; background-repeat: no-repeat; background-image: url('<%= asset_path category + ".jpg" %>');"><%= category %>の新着イベント</h3>
+    <h3><%= category %>の新着イベント</h3>
     <!--<div id="scrollable-div" class="d-flex flex-nowrap overflow-auto">-->
     <div class="swiper">
       <div class="swiper-wrapper">
@@ -139,7 +136,7 @@
     // Optional parameters
     loop: true,  // loop mode
     autoplay: {
-      delay: 1000
+      delay: 2000
     },
     effect: 'fade',
     fadeEffect: {
