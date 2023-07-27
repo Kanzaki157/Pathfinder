@@ -19,7 +19,7 @@ class Event < ApplicationRecord
   
   # Event は EventFavorite モデルと関連づけられています。EventFavorite モデルを介して、ユーザが
   # どのイベントを「お気に入り」に追加したかを管理します。
-  has_many :event_favorites
+  has_many :event_favorites, dependent: :destroy
   
   # Event は User モデルと関連づけられています。ここでは、User を 'participants' として扱っており、
   # 中間テーブルとして EventParticipant を使用しています。これにより、各イベントは多数の参加者（ユーザ）を持つことができます。

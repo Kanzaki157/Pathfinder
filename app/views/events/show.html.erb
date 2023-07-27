@@ -50,10 +50,12 @@
               <tr>
                 <td>
                   <% if user_signed_in? && current_user.email != "guest@example.com" %>
+                    <% if @event.user_id != current_user.id %>
                     <% if current_user.already_favorited?(@event) %>
                       <%= link_to "いいねを外す", event_favorite_path(@event), method: :delete, class: "btn btn-danger" %>
                     <% else %>
                       <%= link_to "いいね！", event_favorite_path(event_id: @event.id), method: :post, class:"btn btn-success" %>
+                    <% end %>
                     <% end %>
                   <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
                     <p><em>いいねするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
