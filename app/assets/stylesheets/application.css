@@ -24,8 +24,8 @@
 }
 
 .sidebar {
-  width: 250px; /* サイドバーの幅 */
-  position: fixed;
+  width: 500px; /* サイドバーの幅 */
+  /*position: fixed;*/
   top: 0;
   left: -250px; /* サイドバーを画面外に隠す */
   height: 100vh; /* 画面の高さ全体に広がる */
@@ -61,3 +61,6 @@
   font-size: 14px;
 }
 
+body {
+  font-size: 10px !important; /* デフォルトサイズ */
+}

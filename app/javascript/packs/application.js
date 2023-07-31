@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("sidebarToggle").addEventListener("click", function(e) {
     e.preventDefault(); // ボタンのデフォルトの動作を停止
     var sidebar = document.getElementById("sidebar");
+    // sidebar.show()
+    // sidebar.hide()
     sidebar.classList.toggle("active"); // .activeクラスの追加/削除
   });
 });
