@@ -5,9 +5,9 @@ class EventFavoritesController < ApplicationController
     @event_favorite = current_user.event_favorites.new(event_id: @event.id)
 
     if @event_favorite.save
-      redirect_to @event, notice: 'Event was favorited successfully.'
+      redirect_to @event
     else
-      redirect_to @event, alert: 'Unable to favorite this event.'
+      redirect_to @event
     end
   end
 
@@ -15,9 +15,9 @@ class EventFavoritesController < ApplicationController
     @event_favorite = current_user.event_favorites.find_by(event_id: @event.id)
 
     if @event_favorite&.destroy
-      redirect_to @event, notice: 'Event was unfavorited successfully.'
+      redirect_to @event
     else
-      redirect_to @event, alert: 'Unable to unfavorite this event.'
+      redirect_to @event
     end
   end
 

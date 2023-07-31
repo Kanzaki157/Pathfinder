@@ -74,14 +74,20 @@ class UsersController < ApplicationController
     end
   end
   
-  def follows
-    user = User.find(params[:id])
-    @users = user.following_users
+  def create
+    @user = User.find(params[:user_id])
+    current_user.follow(@user)
+    respond_to do |format|
+      format.js
+    end
   end
-  
-  def followers
-    user = User.find(params[:id])
-    @user = user.follower_users
+
+  def destroy
+    @user = Relationship.find(params[:id]).followed
+    current_user.unfollow(@user)
+    respond_to do |format|
+      format.js
+    end
   end
   
   private

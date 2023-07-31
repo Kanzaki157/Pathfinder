@@ -25,9 +25,9 @@
           </ul>
           <% if user_signed_in? && current_user == @event.organizer %> <!-- ここにログインチェックを追加 -->
             <h3>管理機能</h3>
-            <%= button_to 'イベントをキャンセルする', { controller: "events", action: "cancel", id: @event.id }, method: :post, class: 'btn btn-danger' %>
+            <%= button_to '終了する', { controller: "events", action: "cancel", id: @event.id }, method: :post, class: 'btn btn-danger' %>
           <% end %>
-          <div class="join-button-container d-flex justify-content-end">
+          <div class="join-button-container mt-3">
             <% if user_signed_in? && current_user.email != "guest@example.com" %>
               <% unless @event.participants.count >= @event.max_participants %>
                 <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary' %>
@@ -63,17 +63,17 @@
                 </td>
               </tr>
               <tr>
-                <td>
-                  <% if user_signed_in? && current_user != @user && current_user.email != "guest@example.com" %>
-                    <% if current_user.following?(@user) %>
-                      <%= link_to "フォロー外す", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
-                    <% else %>
-                      <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class:"btn btn-success" %>
-                    <% end %>
-                  <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
-                    <p><em>フォローするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
+               <td>
+                <% if user_signed_in? && current_user != @user && current_user.email != "guest@example.com" %>
+                  <% if current_user.following?(@user) %>
+                    <%= render 'unfollow_button' %>
+                  <% else %>
+                    <%= render 'follow_button' %>
                   <% end %>
-                </td>
+                <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
+                  <p><em>フォローするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
+                <% end %>
+              </td>
               </tr>
             </tbody>
           </table>

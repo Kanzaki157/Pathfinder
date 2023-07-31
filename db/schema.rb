@@ -83,6 +83,15 @@ ActiveRecord::Schema.define(version: 2023_07_25_075643) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "user_notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "notification_type", null: false
+    t.boolean "read_status", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_notifications_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -112,4 +121,5 @@ ActiveRecord::Schema.define(version: 2023_07_25_075643) do
   add_foreign_key "event_participants", "events"
   add_foreign_key "event_participants", "users"
   add_foreign_key "events", "users"
+  add_foreign_key "user_notifications", "users"
 end

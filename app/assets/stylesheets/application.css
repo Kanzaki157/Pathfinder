@@ -16,8 +16,6 @@
  */
  .navbar-brand {
     font-family: 'Noto Serif JP', serif;
-    padding-left: 20px;
-    margin-left: 20px;
  }
  
  .navbar-nav {
@@ -25,4 +23,41 @@
     padding-right: 20px;
 }
 
+.sidebar {
+  width: 250px; /* サイドバーの幅 */
+  position: fixed;
+  top: 0;
+  left: -250px; /* サイドバーを画面外に隠す */
+  height: 100vh; /* 画面の高さ全体に広がる */
+  background-color: #333; /* 背景色 */
+  transition: left 0.3s; /* 開閉のアニメーション */
+}
+
+.sidebar.active {
+  left: 0; /* サイドバーを表示 */
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  color: #fff;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar p {
+  color: #fff;
+  font-size: 14px;
+}
 

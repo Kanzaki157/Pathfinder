@@ -2,7 +2,7 @@
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
-
+//= require sidebar
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
@@ -15,6 +15,7 @@ import "../stylesheets/application";
 
 import Swiper from 'swiper';
 import 'swiper/swiper-bundle.css';
+import $ from 'jquery';
 
 Rails.start()
 Turbolinks.start()
@@ -34,4 +35,11 @@ document.addEventListener('turbolinks:load', () => {
     }, 1000);
   }
 });
-  
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("sidebarToggle").addEventListener("click", function(e) {
+    e.preventDefault(); // ボタンのデフォルトの動作を停止
+    var sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("active"); // .activeクラスの追加/削除
+  });
+});

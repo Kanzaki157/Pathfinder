@@ -29,6 +29,21 @@ class Event < ApplicationRecord
     self.update(cancelled: true)
   end
   
+  # イベントが作成された後、notify_followersメソッドを呼び出す
+  after_create :notify_followers
+
+  # notify_followersメソッドの定義
+  def notify_followers
+    # イベント作成者のフォロワーを一人ずつ処理する
+    self.organizer.followers.each do |follower|
+      # 各フォロワーに対して、通知を作成する
+      UserNotification.create!(
+        user: follower, # 通知を受け取るユーザー
+        notification_type: 'new_event', # 通知のタイプ（ここでは新しいイベントを示す文字列）
+      )
+    end
+  end
+  
   # バリデーション
   validates :representative, presence: true  # 企業名または企画名が存在すること
   validates :location, presence: true  # 開催地が存在すること
