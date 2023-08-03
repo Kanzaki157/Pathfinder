@@ -36,12 +36,42 @@ document.addEventListener('turbolinks:load', () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("sidebarToggle").addEventListener("click", function(e) {
-    e.preventDefault(); // ボタンのデフォルトの動作を停止
-    var sidebar = document.getElementById("sidebar");
-    // sidebar.show()
-    // sidebar.hide()
-    sidebar.classList.toggle("active"); // .activeクラスの追加/削除
+// document.addEventListener("DOMContentLoaded", function() {
+//   document.getElementById("sidebarToggle").addEventListener("click", function(e) {
+//     e.preventDefault(); // ボタンのデフォルトの動作を停止
+//     var sidebar = document.getElementById("sidebar");
+//     sidebar.classList.toggle("active"); // .activeクラスの追加/削除
+//   });
+// });
+document.addEventListener('turbolinks:load', () => {
+  $('#sidebarToggle').click(function(e) {
+    e.stopPropagation();
+    toggleSidebar();
+  });
+
+  $('#overlay').click(function(e) {
+    toggleSidebar();
+  });
+
+  $('#sidebar').click(function(e) {
+    e.stopPropagation();
   });
 });
+
+function toggleSidebar() {
+  var isSidebarOpen = $('#sidebar').css('left') == '0px';
+
+  $('#sidebar').animate({
+    left: isSidebarOpen ? '-250px' : '0px'
+  }, 300);
+
+  if (isSidebarOpen) {
+    $('#overlay').fadeOut(300);
+    // $('body').css('overflow', 'auto');
+    $('body').removeClass('scroll-lock');
+  } else {
+    $('#overlay').fadeIn(300);
+    $('body').css('overflow-y', 'scroll');
+    $('body').addClass('scroll-lock');
+  }
+}

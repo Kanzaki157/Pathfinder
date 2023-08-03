@@ -25,7 +25,7 @@
           </ul>
           <% if user_signed_in? && current_user == @event.organizer %> <!-- ここにログインチェックを追加 -->
             <h3>管理機能</h3>
-            <%= button_to '終了する', { controller: "events", action: "cancel", id: @event.id }, method: :post, class: 'btn btn-danger' %>
+            <%= button_to '終了する', { controller: "events", action: "cancel", id: @event.id }, method: :post, data: { confirm: '本当に終了しますか？' }, class: 'btn btn-danger' %>
           <% end %>
           <div class="join-button-container mt-3">
             <% if user_signed_in? && current_user.email != "guest@example.com" %>

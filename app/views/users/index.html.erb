@@ -1,4 +1,5 @@
 <%#= link_to 'ゲストログイン（閲覧用）', users_guest_sign_in_path, method: :post %>
+<div class="overlay" id="overlay"></div>
 <div class="top-swiper">
   <div class="swiper-wrapper">
     <div class="swiper-slide"><%= image_tag 'blue_00073.jpg' %></div>
@@ -6,36 +7,81 @@
     <div class="swiper-slide"><%= image_tag 'yellow_00073.jpg' %></div>
   </div>
 </div>
- <div class="wrapper d-flex">
-      <div id="sidebar" class="sidebar">
-        <h2>メニュー</h2>
-          <ul>
-            <li><a href="#section1">セクション 1</a></li>
-            <li><a href="#section2">セクション 2</a></li>
-            <li><a href="#section3">セクション 3</a></li>
-            <li><a href="#section1">セクション 1</a></li>
-            <li><a href="#section2">セクション 2</a></li>
-            <li><a href="#section3">セクション 3</a></li>
-            <li><a href="#section1">セクション 1</a></li>
-            <li><a href="#section2">セクション 2</a></li>
-            <li><a href="#section3">セクション 3</a></li>
-          </ul>
+  <div class="wrapper d-flex">
+    <% if user_signed_in? && controller_name == 'users' && action_name == 'index' && !current_user.admin? %>
+    <div id="sidebar" class="sidebar pt-3 px-3">
+      <h2>メニュー</h2>
+        <ul>
+          <li><%= link_to "ユーザー",user_path(current_user.id) %></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+          <li><a href="#section1">セクション 1</a></li>
+          <li><a href="#section2">セクション 2</a></li>
+          <li><a href="#section3">セクション 3</a></li>
+        </ul>
       </div>
+    <% end %>
+      
 <div class="container">
   <div class="row">
   <div class="col-9 mt-5">
+     <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>人気イベント</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @popular_events.each do |event| %>
+          <tr>
+            <td><%= event.representative %> : <%= event.event_favorites.count %> </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      
     <h2 class="center-text">開催中のイベント一覧</h2>
       <div class="row">
         <% @latest_events.each do |event| %>
-      <div class="col-md-4">
-        <div class="border-top border-left border-right" style="border-radius: 0.25rem 0.25rem 0 0;">
-          <table class="w-100">
-            <tr>
-              <td style="width:80%">
-                <div style="padding: 0.6rem 1.25rem">
-                </div>
-              </td>
-              <td style="width:20%;border-left: solid thin #cccccc;">
+          <div class="col-md-4">
+            <div class="border-top border-left border-right" style="border-radius: 0.25rem 0.25rem 0 0;">
+              <table class="w-100">
+                <tr>
+                  <td style="width:80%">
+                    <div style="padding: 0.6rem 1.25rem">
+                    </div>
+                  </td>
+                  <td style="width:20%;border-left: solid thin #cccccc;">
                 <div style="padding: 0.6rem 1.25rem">
                 </div>
               </td>
@@ -45,27 +91,27 @@
         <div class="card mb-4" style="border-radius: 0 0 0.25rem 0.25rem;">
           <div class="card-body">
             <div class="card-title"><%= event.representative %></div>
-            <p class="card-text">現在の参加者: <%= event.participants.count %></p>
+              <p class="card-text">現在の参加者: <%= event.participants.count %></p>
             <%= link_to '詳細を見る', event, class: "card-link" %>
           </div>
         </div>
       </div>
     <% end %>
   </div>
+  
   <% @categories_events.each do |category, events| %>
   <div class="container mt-5">
     <h3><%= category %>の新着イベント</h3>
-    <!--<div id="scrollable-div" class="d-flex flex-nowrap overflow-auto">-->
-    <div class="swiper">
-      <div class="swiper-wrapper">
-        <% events.each_slice(3) do |event| %>
-          <div class="swiper-slide p-5">
-            <div class="row">
-              <% event.each do |e| %>
-                <div class="col-md-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title"><%= e.representative %></h5>
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <% events.each_slice(3) do |event| %>
+            <div class="swiper-slide p-5">
+              <div class="row">
+                <% event.each do |e| %>
+                  <div class="col-md-4">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title"><%= e.representative %></h5>
                       <p class="card-text">
                         現在の参加者: <%= e.participants.count %>
                       </p>
@@ -80,40 +126,16 @@
           </div>
         <% end %>
       </div>
-    <!--</div>-->
       <div class="swiper-pagination"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+            </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-<% end %>
-</div>
-</div>
-
-<% if user_signed_in? && current_user.email != "guest@example.com" %>
-  <div class="col-4 mt-5">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>User</th>
-          <th>あなたも企画しなせんか？</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= @user.first_name %><%= @user.last_name %></td>
-          <td>
-            <%= link_to "企画する", new_event_path, class: "btn btn-primary" %> 
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-<% end %>
-</div>
-</div>
-
-
 <script>
   const swiper = new Swiper('.swiper', {
     //オプションの設定

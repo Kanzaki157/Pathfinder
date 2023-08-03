@@ -14,27 +14,50 @@
  *= require_self
  * 
  */
- .navbar-brand {
-    font-family: 'Noto Serif JP', serif;
+.navbar-brand {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 30px;
  }
  
- .navbar-nav {
-    margin-right: 20px;
-    padding-right: 20px;
+.navbar-nav {
+  margin-right: 20px;
+  padding-right: 20px;
 }
 
 .sidebar {
-  width: 500px; /* サイドバーの幅 */
-  /*position: fixed;*/
-  top: 0;
+  width: 200px; /* サイドバーの幅 */
+  position: absolute;
+  overflow-y: auto; /* 垂直方向のスクロールを許可 */
+  z-index: 1000; /* サイドバーのz-indexを高く設定 */
+  top: 71px;
   left: -250px; /* サイドバーを画面外に隠す */
   height: 100vh; /* 画面の高さ全体に広がる */
-  background-color: #333; /* 背景色 */
-  transition: left 0.3s; /* 開閉のアニメーション */
+  background-color: rgba(0, 0, 0, 0.5); /* 背景色 */
 }
+
+.scroll-lock {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; // サイドバーのz-indexよりも低く設定
+}
+
 
 .sidebar.active {
   left: 0; /* サイドバーを表示 */
+  display: block;
 }
 
 .sidebar h2 {
@@ -62,5 +85,15 @@
 }
 
 body {
-  font-size: 10px !important; /* デフォルトサイズ */
+  font-size: 10px !important;
 }
+
+
+.bi-compass {
+  margin-left: 10px; /* アイコンの左の余白を追加 */
+}
+
+#sidebarToggle i {
+  font-size: 30px; /* 例としてのサイズ */
+}
+
