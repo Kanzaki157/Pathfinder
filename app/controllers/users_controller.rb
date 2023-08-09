@@ -24,7 +24,11 @@ class UsersController < ApplicationController
       @categories_events[category] = Event.where(category: category).order(created_at: :desc).limit(10)
     end
   end
-
+  
+  def test_page
+    
+  end
+  
   def show
     @user = User.find(params[:id])
     @user_events = @user.events # ユーザーが作成したイベントを取得

@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     post 'users/guest_sign_in', to: 'users/sessions#new_guest'
   end
   
+  get "test_page" => "users#test_page",as: "test_page"
+  
   root 'users#index'
   namespace :admin do
     resources :users, only: [:index, :destroy] do
