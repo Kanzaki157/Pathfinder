@@ -13,6 +13,12 @@
       <h2>メニュー</h2>
         <ul>
           <li><%= link_to "ユーザー",user_path(current_user.id) %></li>
+          <h6>通知</h6>
+            <% @notifications.each do |notification| %>
+              <div>
+                <%= notification.notification_type %> <!-- 通知タイプに応じて表示をカスタマイズ -->
+              </div>
+            <% end %>
           <li><a href="#section2">セクション 2</a></li>
           <li><a href="#section3">セクション 3</a></li>
           <li><a href="#section1">セクション 1</a></li>

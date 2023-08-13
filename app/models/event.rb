@@ -39,6 +39,7 @@ class Event < ApplicationRecord
       # 各フォロワーに対して、通知を作成する
       UserNotification.create!(
         user: follower, # 通知を受け取るユーザー
+        event: self,    # 通知に関連するイベント
         notification_type: 'new_event', # 通知のタイプ（ここでは新しいイベントを示す文字列）
       )
     end

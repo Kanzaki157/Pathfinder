@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   def index
     @user = current_user
     @users = User.all
+    @notifications = current_user.user_notifications
     # 取得したイベントを「いいね」の数で並び替え、上位10件を取得する
     @popular_events = Event.left_joins(:event_favorites).group(:id).order('COUNT(event_favorites.id) DESC').limit(10)
     # イベントを作成日時の降順に並び替え、上位10件を取得する

@@ -29,6 +29,8 @@ class User < ApplicationRecord
   has_many :following_users, through: :followers, source: :followed
   has_many :follower_users, through: :followeds, source: :follower
   
+  has_many :user_notifications
+  
   # ゲストユーザーを作成または検索します。
   # ゲストメールアドレスがすでに存在する場合はそのユーザーを返し、
   # 存在しない場合は新たにゲストユーザーを作成します。
