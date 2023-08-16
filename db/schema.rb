@@ -85,12 +85,12 @@ ActiveRecord::Schema.define(version: 2023_07_25_075643) do
 
   create_table "user_notifications", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "post_id"
+    t.integer "event_id"
     t.string "notification_type", null: false
     t.boolean "read_status", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["post_id"], name: "index_user_notifications_on_post_id"
+    t.index ["event_id"], name: "index_user_notifications_on_event_id"
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
   end
 
@@ -123,6 +123,6 @@ ActiveRecord::Schema.define(version: 2023_07_25_075643) do
   add_foreign_key "event_participants", "events"
   add_foreign_key "event_participants", "users"
   add_foreign_key "events", "users"
-  add_foreign_key "user_notifications", "posts"
+  add_foreign_key "user_notifications", "events"
   add_foreign_key "user_notifications", "users"
 end

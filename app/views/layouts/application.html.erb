@@ -38,6 +38,13 @@
                 <% end %>
                 
                 <% if user_signed_in? %>
+                  <% unread_count = current_user.user_notifications.where(read_status: false).count %>
+                    <li class="nav-item mr-3" style="font-size: 20px; font-family: 'Noto Serif JP', serif;">
+                      <a href="#" class="nav-link text-dark" data-toggle="modal" data-target="#notificationsModal">
+                        通知 <% if unread_count > 0 %><span class="badge badge-warning"><%= [unread_count, 99].min %></span><% end %>
+                      </a>
+                    </li>
+                    
                   <li class="nav-item mr-3" style="font-size: 20px; font-family: 'Noto Serif JP', serif;">
                     <%= link_to destroy_user_session_path, method: :delete, data: { confirm: '本当にログアウトしますか？' }, class: 'nav-link text-dark' do %>
                       ログアウト<i class="fas fa-sign-out-alt"></i>
@@ -56,17 +63,48 @@
                       ログイン<i class="fas fa-sign-in-alt"></i>
                     <% end %>  
                   </li>
+                  
                   <li class="nav-item mr-3" style="font-size: 20px; font-family: 'Noto Serif JP', serif;">
                     <%= link_to new_user_registration_path, class: 'nav-link text-dark' do %>
                       新規登録<i class="fas fa-plus"></i>
                     <% end %>
                   </li>
+                  
                 <% end %>
               </ul>
             </div>
           </nav>
         </header>
-     </div>
+        <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="notificationsModalLabel">通知内容</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <% if current_user %>
+                  <% current_user.user_notifications.where(read_status: false).each do |notification| %>
+                    <div>
+                      <% if notification.notification_type == 'new_event' %>
+                        <%= link_to "#{notification.event.creator.first_name} #{notification.event.creator.last_name}さんが新しいイベントを作成しました!", event_path(notification.event), data: { "turbolinks"=>false } %>
+                        <%= button_to "Delete", user_notification_path(id: notification.id), method: :delete, data: { confirm: "メッセージを削除しますか？" } %>
+                      <% else %>
+                        <%= notification.notification_type %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
       <% flash.each do |name, msg| %>
         <%= content_tag(:div, msg, class: "alert alert-info flash_messages") %>

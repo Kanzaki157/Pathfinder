@@ -12,6 +12,8 @@ class Event < ApplicationRecord
   # 外部キーとして 'user_id' を使用しています。これにより、各イベントはユーザ（開催者）に所属していると扱われます。
   belongs_to :organizer, class_name: "User", foreign_key: "user_id"
   
+  belongs_to :creator, class_name: 'User', foreign_key: 'user_id'
+  
   # Event は EventParticipant モデルと関連づけられています。ここでは、EventParticipant という中間テーブルを使って、
   # User モデルと多対多の関連を組んでいます。dependent: :destroy を設定することで、イベントが削除されたときに、
   # 関連する EventParticipant も自動的に削除されます。

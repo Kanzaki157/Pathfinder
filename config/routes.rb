@@ -19,10 +19,12 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  resources :user_notifications, only: [:index, :destroy]
+  
   # 下記の2行は上の devise_scope で既に定義しているので削除
   # post '/users/guest_sign_in', to: 'users#guest_sign_in'
   # post 'guest_login', to: 'sessions#guest_login'
-  
   resources :users
   resources :users, only: [:index, :show, :edit, :update] do
     member do
