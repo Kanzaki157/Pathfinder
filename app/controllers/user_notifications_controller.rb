@@ -5,9 +5,14 @@ class UserNotificationsController < ApplicationController
   end
   
   def destroy
-    notification = UserNotification.find(params[:id])
-    notification.destroy if notification.user == current_user
-    redirect_to root_path, notice: '通知が削除されました。'
+    notification = current_user.user_notifications.find_by(id: params[:id])
+    if notification
+      notification.destroy
+      redirect_to root_path, notice: '通知が削除されました。'
+    else
+      redirect_to root_path, alert: '通知が見つかりませんでした。'
+    end
   end
+
   
 end

@@ -25,12 +25,12 @@
 }
 
 .sidebar {
-  width: 200px; /* サイドバーの幅 */
+  width: 250px; /* サイドバーの幅 */
   position: absolute;
   overflow-y: auto; /* 垂直方向のスクロールを許可 */
   z-index: 1000; /* サイドバーのz-indexを高く設定 */
   top: 71px;
-  left: -250px; /* サイドバーを画面外に隠す */
+  left: -300px; /* サイドバーを画面外に隠す */
   height: 100vh; /* 画面の高さ全体に広がる */
   background-color: rgba(0, 0, 0, 0.5); /* 背景色 */
 }
@@ -97,3 +97,60 @@ body {
   font-size: 30px; /* 例としてのサイズ */
 }
 
+.sidebar ul li a:hover {
+  color: blue; /* ホバー時のリンクのテキストの色 */
+}
+
+.sidebar ul li img {
+  width: 40px; /* 画像の幅 */
+  height: 40px; /* 画像の高さ */
+  border-radius: 20px; /* 丸みを帯びた画像 */
+  margin-right: 10px; /* 画像の右の余白 */
+}
+
+.sidebar-title {
+
+  background-color: #202020; /* 背景色 */
+  color: white; /* 文字色 */
+  border-radius: 10px; /* 角の丸み */
+}
+
+#sidebar {
+  background-color: #202020; /* サイドバーの背景色 */
+  color: white; /* サイドバー内のテキストの色 */
+}
+
+.user-link {
+  padding: 5px;
+}
+
+.user-name-link {
+  color: white; /* リンクのテキストの色 */
+  text-decoration: none; /* 下線の削除 */
+}
+
+.user-name-link:hover {
+  color: red; /* ホバー時のリンクのテキストの色 */
+}
+
+.sidebar ul li.user-link {
+  background-color: #202020;
+  color: #fff; /* 通常時の文字色（白） */
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.sidebar ul li.user-link:hover {
+  background-color: #f0f0f0; /* ホバー時の背景色（灰色） */
+  color: #000; /* ホバー時の文字色（黒） */
+  border-radius: 5px;
+}
+
+.sidebar ul li.user-link a {
+  color: inherit; /* 親のliから文字色を継承 */
+  text-decoration: none;
+}
+
+.sidebar ul li.user-link a:hover {
+  text-decoration: none; /* ホバー時に下線を消す */
+}

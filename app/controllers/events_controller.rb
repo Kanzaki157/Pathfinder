@@ -6,6 +6,7 @@ class EventsController < ApplicationController
   # 全てのイベントを取得
   def index
     @events = Event.all
+    @event = Event.new
   end
   
   # 特定のイベントを表示（set_eventが先に実行される）
@@ -76,7 +77,6 @@ class EventsController < ApplicationController
     @event = current_user.events.build(event_params)
     @event.user_id = current_user.id
     if @event.save
-      notify_followers(@event)
       redirect_to @event, notice: 'イベントが正常に作成されました。'
     else
       puts @event.errors.full_messages
@@ -100,13 +100,6 @@ class EventsController < ApplicationController
   end
 
   private
-  
-  def notify_followers(event)
-    notification_type = "new_event" # または他の適切な識別子
-    current_user.follower_users.each do |follower|
-      UserNotification.create(user: follower, event: event, notification_type: notification_type)
-    end
-  end
   
   # params[:id]で指定されたイベントを設定
   def set_event

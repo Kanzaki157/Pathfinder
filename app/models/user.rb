@@ -22,12 +22,18 @@ class User < ApplicationRecord
   has_many :events, through: :event_participants
   
   # フォローをした、されたの関係
-  has_many :followers, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
-  has_many :followeds, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  # has_many :followers, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  # has_many :followeds, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   
-  # 一覧画面で使う
-  has_many :following_users, through: :followers, source: :followed
-  has_many :follower_users, through: :followeds, source: :follower
+  # # 一覧画面で使う
+  # has_many :following_users, through: :followers, source: :followed
+  # has_many :follower_users, through: :followeds, source: :follower
+  
+  has_many :follower_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  
+  has_many :following_users, through: :follower_relationships, source: :followed
+  has_many :follower_users, through: :followed_relationships, source: :follower
   
   has_many :user_notifications
   
@@ -54,16 +60,17 @@ class User < ApplicationRecord
   end
 
   
-  #　フォローしたときの処理
+   # フォローしたときの処理
   def follow(user_id)
-    followers.create(followed_id: user_id)
+    follower_relationships.create(followed_id: user_id)
   end
   
-  #　フォローを外すときの処理
+  # フォローを外すときの処理
   def unfollow(user_id)
-    followers.find_by(followed_id: user_id).destroy
+    follower_relationship = follower_relationships.find_by(followed_id: user_id)
+    follower_relationship.destroy if follower_relationship
   end
-  
+    
   #フォローしていればtrueを返す
   def following?(user)
     following_users.include?(user)

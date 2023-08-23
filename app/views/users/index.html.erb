@@ -7,46 +7,21 @@
     <div class="swiper-slide"><%= image_tag 'yellow_00073.jpg' %></div>
   </div>
 </div>
-  <div class="wrapper d-flex">
-    <% if user_signed_in? && controller_name == 'users' && action_name == 'index' && !current_user.admin? %>
+<div class="wrapper d-flex">
+  <% if user_signed_in? && controller_name == 'users' && action_name == 'index' && !current_user.admin? %>
     <div id="sidebar" class="sidebar pt-3 px-3">
-      <h2>メニュー</h2>
-        <ul>
-          <li><%= link_to "ユーザー",user_path(current_user.id) %></li>
-          
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-          <li><a href="#section1">セクション 1</a></li>
-          <li><a href="#section2">セクション 2</a></li>
-          <li><a href="#section3">セクション 3</a></li>
-        </ul>
-      </div>
+  <h6 class="sidebar-title">フォロー中のユーザー</h6>
+  <ul>
+    <% @followed_users.each do |user| %>
+      <li class="user-link">
+        <%= image_tag user.image, size: "40x40" if user.image.attached? %>
+        <%= link_to user.first_name + " " + user.last_name, user_path(user.id) %>
+        <small>(<%= user.follower_users.count %> フォロワー)</small>
+      </li>
     <% end %>
-      <%= link_to "イベントを作成", new_event_path %>
+  </ul>
+  <% end %>
+</div>
 <div class="container">
   <div class="row">
   <div class="col-9 mt-3">
@@ -64,6 +39,38 @@
           <% end %>
         </tbody>
       </table>
+<%= link_to "イベントを作成", "#createEventModal", class: "btn btn-primary", data: { toggle: "modal" } %>
+
+<div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document"> <!-- モーダルサイズを大きくするために modal-lg クラスを追加 -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createEventModalLabel">イベントを作成</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container mt-5">
+          <div class="row justify-content-center">
+            <div class="col-md-10"> <!-- カラムサイズを調整 -->
+              <div class="card">
+                <div class="card-body">
+                  <%= render 'events/form', event: @event %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
       
     <h2 class="center-text">開催中のイベント一覧</h2>
       <div class="row">

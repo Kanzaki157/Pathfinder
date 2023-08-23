@@ -37,7 +37,7 @@ class Event < ApplicationRecord
   # notify_followersメソッドの定義
   def notify_followers
     # イベント作成者のフォロワーを一人ずつ処理する
-    self.organizer.followers.each do |follower|
+    self.organizer.follower_users.each do |follower|
       # 各フォロワーに対して、通知を作成する
       UserNotification.create!(
         user: follower, # 通知を受け取るユーザー
