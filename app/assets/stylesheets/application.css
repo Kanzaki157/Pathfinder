@@ -51,7 +51,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999; // サイドバーのz-indexよりも低く設定
+  z-index: 999;
 }
 
 
@@ -153,4 +153,106 @@ body {
 
 .sidebar ul li.user-link a:hover {
   text-decoration: none; /* ホバー時に下線を消す */
+}
+
+.user-icon {
+  width: 50px;   /* 例として50pxに設定 */
+  height: 50px;  /* 例として50pxに設定 */
+  border-radius: 50%;  /* これで画像が円状になります */
+  object-fit: cover;   /* 画像のアスペクト比を維持して、指定されたボックスに収まるように調整 */
+}
+
+.user-content {
+  display: flex;
+  align-items: center; /* 縦方向の中央寄せ */
+}
+
+.participant {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.participant-name {
+    margin-right: 10px;
+}
+
+/*.center-container {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  min-height: 100vh;*/
+/*}*/
+
+.event_card_title {
+  font-size: 20px;
+  margin-bottom: 0;
+  padding-left: 180px;
+}
+
+.like-button {
+  padding-right: 180px;
+}
+
+.heart-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 24px;
+  color: red;
+  &:hover {
+  color: red;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+ 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+ 
+body {
+  display: flex;
+  flex-direction: column;
+}
+ 
+footer {
+  margin-top: auto;
+  padding: 30px 0;
+  background: #89c7de;
+  color: #fff;
+  text-align: center;
+}
+
+.custom-modal-header {
+    background-color: #e0e0e0;
+}
+
+.myapp-close-btn {
+  font-size: 20px;
+}
+
+.event-modal-title {
+  padding-left: 300px;
+  font-size: 30px;
+  margin-bottom: 0;
+}
+
+/* タブレットや小さいデスクトップの画面サイズの場合 */
+@media (max-width: 992px) {
+  .event-modal-title {
+    padding-left: 150px; /* 中くらいの画面サイズに対応するスタイル */
+  }
+}
+
+/* モバイルデバイスの場合 */
+@media (max-width: 576px) {
+  .event-modal-title {
+    padding-left: 50px; /* 小さい画面サイズに対応するスタイル */
+    font-size: 24px;    /* フォントサイズを少し小さくする */
+  }
 }

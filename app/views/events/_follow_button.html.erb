@@ -1,3 +1,4 @@
-<%= form_with(url: user_relationships_path(@user.id), method: :post, local: false) do |f| %>
-  <%= f.submit 'フォローする', class: 'btn btn-success' %>
-<% end %>
+<%#= form_with(url: user_relationships_path(user.id), method: :post, local: false) do |f| %>
+  <%#= f.submit 'フォローする', class: 'btn btn-success' %>
+<%# end %>
+<%= link_to 'フォローする', user_relationships_path(user.id), method: :post %>

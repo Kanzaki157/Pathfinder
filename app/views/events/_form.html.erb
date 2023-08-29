@@ -2,9 +2,9 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card-body">
-          <%= form_with(model: @event, url: confirm_events_path) do |form| %>
+          <%= form_with(model: @event, url: events_path, data: { confirm: "本当にこの情報で投稿しますか？" }) do |form| %>
             <div class="mb-3">
-              <%= form.label :representative, '企画名または企業名', class: 'form-label' %>
+              <%= form.label :representative, 'イベント名または企業名', class: 'form-label' %>
                 <%= form.text_field :representative, class: 'form-control' %>
                   <% if @event.errors[:representative].any? %>
                     <div class="alert alert-danger mt-2">
@@ -98,7 +98,7 @@
                       <%= @event.errors[:description].join(", ") %>
                     </div>
                   <% end %>
-                <small class="form-text text-muted">イベントまたは企業についての詳細な説明を入力���てください。</small>
+                <small class="form-text text-muted">イベントまたは企業についての詳細な説明を入力てください。</small>
               </div>
             <%= form.submit class: "btn btn-primary" %>
           <% end %>

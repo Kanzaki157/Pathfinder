@@ -1,105 +1,104 @@
 <%#= link_to 'ゲストログイン（閲覧用）', users_guest_sign_in_path, method: :post %>
 <div class="overlay" id="overlay"></div>
-<div class="top-swiper style="height: 300px;"">
-  <div class="swiper-wrapper" >
-    <div class="swiper-slide" ><%= image_tag 'blue_00073.jpg' %></div>
-    <div class="swiper-slide"><%= image_tag 'red_00073.jpg' %></div>
-    <div class="swiper-slide"><%= image_tag 'yellow_00073.jpg' %></div>
+  <div class="top-swiper style="height: 300px;"">
+    <div class="swiper-wrapper" >
+      <div class="swiper-slide" ><%= image_tag 'blue_00073.jpg' %></div>
+        <div class="swiper-slide"><%= image_tag 'red_00073.jpg' %></div>
+      <div class="swiper-slide"><%= image_tag 'yellow_00073.jpg' %></div>
+    </div>
   </div>
-</div>
 <div class="wrapper d-flex">
   <% if user_signed_in? && controller_name == 'users' && action_name == 'index' && !current_user.admin? %>
     <div id="sidebar" class="sidebar pt-3 px-3">
-  <h6 class="sidebar-title">フォロー中のユーザー</h6>
-  <ul>
-    <% @followed_users.each do |user| %>
-      <li class="user-link">
-        <%= image_tag user.image, size: "40x40" if user.image.attached? %>
-        <%= link_to user.first_name + " " + user.last_name, user_path(user.id) %>
-        <small>(<%= user.follower_users.count %> フォロワー)</small>
-      </li>
-    <% end %>
-  </ul>
-  <% end %>
-</div>
-<div class="container">
-  <div class="row">
-  <div class="col-9 mt-3">
-     <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>人気イベント</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @popular_events.each do |event| %>
-          <tr>
-            <td><%= event.representative %> : <%= event.event_favorites.count %> </td>
-          </tr>
+      <h6 class="sidebar-title">フォロー中のユーザー</h6>
+        <ul>
+          <% @followed_users.each do |user| %>
+            <li class="user-link">
+              <%= image_tag user.image, size: "40x40" if user.image.attached? %>
+              <%= link_to user.first_name + " " + user.last_name, user_path(user.id) %>
+              <small>(<%= user.follower_users.count %> フォロワー)</small>
+            </li>
           <% end %>
-        </tbody>
-      </table>
-<%= link_to "イベントを作成", "#createEventModal", class: "btn btn-primary", data: { toggle: "modal" } %>
-
-<div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document"> <!-- モーダルサイズを大きくするために modal-lg クラスを追加 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createEventModalLabel">イベントを作成</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container mt-5">
-          <div class="row justify-content-center">
-            <div class="col-md-10"> <!-- カラムサイズを調整 -->
-              <div class="card">
-                <div class="card-body">
-                  <%= render 'events/form', event: @event %>
+        </ul>
+      <% end %>
+    </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mt-3">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>人気イベント</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @popular_events.each do |event| %>
+            <tr>
+              <td><%= event.representative %> : <%= event.event_favorites.count %> </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        
+      <%= link_to "イベントを作成", "#createEventModal", class: "btn btn-primary", data: { toggle: "modal" } %>
+        <div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header custom-modal-header">
+                <h5 class="event-modal-title" id="createEventModalLabel">イベントを作成</h5>
+                <button type="button" class="close mr-2" data-dismiss="modal" aria-label="閉じる">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container mt-5">
+                  <div class="row justify-content-center">
+                    <div class="col-md-10">
+                      <div class="card">
+                        <div id="error-container-id"></div>
+                        <div class="card-body">
+                          <%= render 'events/form', event: @event %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
       
-    <h2 class="center-text">開催中のイベント一覧</h2>
-      <div class="row">
-        <% @latest_events.each do |event| %>
-          <div class="col-md-4">
-            <div class="border-top border-left border-right" style="border-radius: 0.25rem 0.25rem 0 0;">
-              <table class="w-100">
-                <tr>
-                  <td style="width:80%">
+        <h2 class="center-text">開催中のイベント一覧</h2>
+          <div class="row">
+            <% @latest_events.each do |event| %>
+              <div class="col-md-4">
+                <div class="border-top border-left border-right" style="border-radius: 0.25rem 0.25rem 0 0;">
+                  <table class="w-100">
+                    <tr>
+                      <td style="width:80%">
+                        <div style="padding: 0.6rem 1.25rem">
+                        </div>
+                      </td>
+                      <td style="width:20%;border-left: solid thin #cccccc;">
                     <div style="padding: 0.6rem 1.25rem">
                     </div>
                   </td>
-                  <td style="width:20%;border-left: solid thin #cccccc;">
-                <div style="padding: 0.6rem 1.25rem">
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="card mb-4" style="border-radius: 0 0 0.25rem 0.25rem;">
-          <div class="card-body">
-            <div class="card-title"><%= event.representative %></div>
-              <p class="card-text">現在の参加者: <%= event.participants.count %></p>
-            <%= link_to '詳細を見る', event, class: "card-link" %>
+                </tr>
+              </table>
+            </div>
+            <div class="card mb-4" style="border-radius: 0 0 0.25rem 0.25rem;">
+              <div class="card-body">
+                <div class="card-title"><%= event.representative %></div>
+                  <p class="card-text">現在の参加者: <%= event.participants.count %></p>
+                <%= link_to '詳細を見る', event, class: "card-link" %>
+              </div>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
-    <% end %>
-  </div>
   
   <% @categories_events.each do |category, events| %>
   <div class="container mt-5">
@@ -128,16 +127,16 @@
           </div>
         <% end %>
       </div>
-      <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-            </div>
-              </div>
-            <% end %>
+    <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
           </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
+  </div>
 <script>
   const swiper = new Swiper('.swiper', {
     //オプションの設定

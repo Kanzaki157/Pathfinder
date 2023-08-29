@@ -12,8 +12,16 @@ class UsersController < ApplicationController
   end
   
   def index
-    @user = current_user
-    @followed_users = current_user.following_users
+    if user_signed_in?
+      @user = current_user
+      @followed_users = @user.following_users
+      @notifications = current_user.user_notifications
+    else
+      @user = nil
+      @followed_users = []
+      @notifications = []
+    end
+  
     @users = User.all
     @event = Event.new
     # 取得したイベントを「いいね」の数で並び替え、上位10件を取得する
@@ -25,13 +33,6 @@ class UsersController < ApplicationController
     categories.each do |category|
       @categories_events[category] = Event.where(category: category).order(created_at: :desc).limit(10)
     end
-    if user_signed_in?
-      @notifications = current_user.user_notifications
-    end
-  end
-  
-  def test_page
-    
   end
   
   def show
@@ -99,8 +100,16 @@ class UsersController < ApplicationController
     end
   end
   
+  def update_icon
+    @user = User.find(params[:id])
+    if @user.update(user_icon_params)
+      redirect_to user_path(@user), notice: "アイコンを更新しました。"
+    else
+      render :show
+    end
+  end
+  
   private
-    # コールバックを使用して、アクション間で共通の設定や制約を共有します。
     def set_user
       @user = User.find(params[:id])
     end
@@ -109,4 +118,9 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:last_name, :first_name, :last_name_kana, :first_name_kana, :email, :password, :address, :post_code, :phone_number, :is_delete, :image)
     end
+    
+    def user_icon_params
+      params.require(:user).permit(:image)
+    end
+    
 end

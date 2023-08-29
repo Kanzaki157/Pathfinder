@@ -22,15 +22,15 @@ class EventsController < ApplicationController
     @event = Event.new
   end
   
-  def confirm
-    @event = Event.new(event_params)
-    @event.user_id = current_user.id
-    if @event.valid?
-      session[:event] = event_params # 入力情報が有効であればセッションに保存
-    else
-      render :new # 入力情報が無効であればフォーム画面に戻る
-    end
-  end
+  # def confirm
+  #   @event = Event.new(event_params)
+  #   @event.user_id = current_user.id
+  #   if @event.valid?
+  #     session[:event] = event_params # 入力情報が有効であればセッションに保存
+  #   else
+  #     render :new # 入力情報が無効であればフォーム画面に戻る
+  #   end
+  # end
   
   def join
     @event = Event.find(params[:id]) # パラメータからイベントを見つけます
@@ -40,10 +40,17 @@ class EventsController < ApplicationController
     else
       # ユーザーをイベントの参加者として追加
       @event.participants << current_user
-      flash[:notice] = "イベントに正常に参加しました。"
     end
     redirect_to @event # イベントの詳細ページにリダイレクト
   end
+  
+  def leave
+    event = Event.find(params[:id])
+    event.participants.delete(current_user)
+    redirect_to event_path(event)
+  end
+
+
   
   def cancel
   @event = Event.find(params[:id])
@@ -79,8 +86,27 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to @event, notice: 'イベントが正常に作成されました。'
     else
-      puts @event.errors.full_messages
-      render :new
+      if user_signed_in?
+        @user = current_user
+        @followed_users = @user.following_users
+        @notifications = current_user.user_notifications
+      else
+        @user = nil
+        @followed_users = []
+        @notifications = []
+      end
+      @users = User.all
+      @event = Event.new
+      # 取得したイベントを「いいね」の数で並び替え、上位10件を取得する
+      @popular_events = Event.left_joins(:event_favorites).group(:id).order('COUNT(event_favorites.id) DESC').limit(10)
+      # イベントを作成日時の降順に並び替え、上位10件を取得する
+      @latest_events = Event.order(created_at: :desc).limit(10)
+      categories = ['お祭り', '体験', '出会い', 'その他']
+      @categories_events = {}
+      categories.each do |category|
+      @categories_events[category] = Event.where(category: category).order(created_at: :desc).limit(10)
+    end
+      render "users/index"
     end
   end
 

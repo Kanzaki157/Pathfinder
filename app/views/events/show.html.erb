@@ -1,35 +1,71 @@
 <div class="container mt-5">
-  <div class="card">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card-body">
-          <h2 class="mb-3"><%= @event.representative %></h2>
-          <p><strong>開催地:</strong> <%= @event.location %></p>
-          <p><strong>カテゴリ：</strong><%= @event.category %></p>
-          <p><strong>代表者名:</strong> <%= @event.name %></p>
-          <p><strong>開始日時:</strong> <%= @event.start_time.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H時%M分') %></p>
-          <p><strong>終了日時:</strong> <%= @event.end_time.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H時%M分') %></p>
-          <p><strong>主要商品:</strong> <%= @event.main_products %></p>
-          <p><strong>上限人数:</strong> <%= @event.max_participants %></p>
-          <p><strong>詳細な説明:</strong> <%= @event.description %></p>
-          <h3>参加者一覧</h3>
-          <ul>
+  <div class="row">
+    <div class="col-6 px-0 card card mx-auto d-block">
+      <div class="card-header d-flex justify-content-between align-items-center">
+      <h2 class="event_card_title">イベントの詳細</h2>
+      <div class="like-button">
+        <% if user_signed_in? && current_user.email != "guest@example.com" %>
+          <% if @event.user_id != current_user.id %>
+            <% if current_user.already_favorited?(@event) %>
+              <%= link_to event_favorite_path(@event), method: :delete, class: "heart-button" do %>
+                <i class="fas fa-heart"></i>
+              <% end %>
+              <% else %>
+                <%= link_to event_favorite_path(event_id: @event.id), method: :post, class: "heart-button" do %>
+                  <i class="far fa-heart"></i>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
+            <p><em>いいねするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
+          <% end %>
+      </div>
+    </div>
+      <div class="card-body">
+        <p class="event-detail pl-4"><strong>開催地:</strong> <%= @event.representative %></p>
+        <p class="event-detail pl-4"><strong>開催地:</strong> <%= @event.location %></p>
+        <p class="event-detail pl-4"><strong>カテゴリ：</strong><%= @event.category %></p>
+        <p class="event-detail pl-4"><strong>代表者名:</strong> <%= @event.name %></p>
+        <p class="event-detail pl-4"><strong>開始日時:</strong> <%= @event.start_time.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H時%M分') %></p>
+        <p class="event-detail pl-4"><strong>終了日時:</strong> <%= @event.end_time.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H時%M分') %></p>
+        <p class="event-detail pl-4"><strong>主要商品:</strong> <%= @event.main_products %></p>
+        <p class="event-detail pl-4"><strong>上限人数:</strong> <%= @event.max_participants %></p>
+        <p class="event-detail pl-4"><strong>詳細な説明:</strong> <%= @event.description %></p>
+        <h4 class="event-detail-title pl-4">参加者一覧</h4>
+          <ul class="list-unstyled">
             <% @participants.each do |user| %>
-              <li>
-                <%= "#{user.first_name} #{user.last_name}" %>
-                <% if user_signed_in? && current_user == @event.organizer %> <!-- ここにログインチェックを追加 -->
-                  <%= link_to '削除', remove_participant_event_path(@event, user_id: user.id), method: :delete, class: 'btn btn-danger' %>
+              <li class="participant">
+                <span class="participant-name pl-4"><%= "#{user.first_name} #{user.last_name}" %></span>
+                  <% if user_signed_in? && current_user != user && current_user.email != "guest@example.com" %>
+                    <span class="mr-2">
+                    <% if current_user.following?(user) %>
+                      <%= render 'unfollow_button', user: user %>
+                    <% else %>
+                      <%= render 'follow_button', user: user %>
+                    <% end %>
+                  </span>
+                  <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
+                    <span class="mr-2">
+                      <em>フォローするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em>
+                    </span>
+                  <% end %>
+                  <% if user_signed_in? && current_user == @event.organizer %>
+                    <span>
+                      <%= link_to '削除', remove_participant_event_path(@event, user_id: user.id), method: :delete, class: 'text-danger' %>
+                    </span>
                 <% end %>
               </li>
             <% end %>
           </ul>
-          <% if user_signed_in? && current_user == @event.organizer %> <!-- ここにログインチェックを追加 -->
-            <h3>管理機能</h3>
-            <%= button_to '終了する', { controller: "events", action: "cancel", id: @event.id }, method: :post, data: { confirm: '本当に終了しますか？' }, class: 'btn btn-danger' %>
-          <% end %>
+        <% if user_signed_in? && current_user == @event.organizer %>
+          <h3 class="pl-4">管理機能</h3>
+            <%= button_to '終了する', { controller: "events", action: "cancel", id: @event.id }, method: :post, data: { confirm: '本当に終了しますか？' }, class: 'btn btn-danger pl-4' %>
+        <% end %>
           <div class="join-button-container mt-3">
             <% if user_signed_in? && current_user.email != "guest@example.com" %>
-              <% unless @event.participants.count >= @event.max_participants %>
+              <% if @event.participants.include?(current_user) %>
+                <%= button_to '参加取り消し', leave_event_path(@event), method: :delete, class: 'btn btn-warning pl-4' %>
+              <% elsif @event.participants.count < @event.max_participants %>
                 <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary' %>
               <% end %>
             <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
@@ -38,47 +74,5 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="mt-4">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col"><%= @event.name %></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <% if user_signed_in? && current_user.email != "guest@example.com" %>
-                    <% if @event.user_id != current_user.id %>
-                    <% if current_user.already_favorited?(@event) %>
-                      <%= link_to "いいねを外す", event_favorite_path(@event), method: :delete, class: "btn btn-danger" %>
-                    <% else %>
-                      <%= link_to "いいね！", event_favorite_path(event_id: @event.id), method: :post, class:"btn btn-success" %>
-                    <% end %>
-                    <% end %>
-                  <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
-                    <p><em>いいねするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
-                  <% end %>
-                </td>
-              </tr>
-              <tr>
-               <td>
-                <% if user_signed_in? && current_user != @user && current_user.email != "guest@example.com" %>
-                  <% if current_user.following?(@user) %>
-                    <%= render 'unfollow_button' %>
-                  <% else %>
-                    <%= render 'follow_button' %>
-                  <% end %>
-                <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
-                  <p><em>フォローするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
-                <% end %>
-              </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

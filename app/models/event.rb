@@ -1,12 +1,4 @@
 class Event < ApplicationRecord
-  # def google_calendar_url
-  #   base_url = "https://www.google.com/calendar/render?action=TEMPLATE"
-  #   text = "&text=#{URI.encode(name)}"
-  #   dates = "&dates=#{start_date.strftime('%Y%m%dT%H%M%SZ')}/#{end_date.strftime('%Y%m%dT%H%M%SZ')}"
-  #   details = "&details=#{URI.encode(details)}"
-  #   location = "&location=#{URI.encode(location)}"
-  #   "#{base_url}#{text}#{dates}#{details}#{location}"
-  # end
   has_one_attached :image
   # Event は User モデルと関連づけられています。ここでは User を 'organizer' として扱っており、
   # 外部キーとして 'user_id' を使用しています。これにより、各イベントはユーザ（開催者）に所属していると扱われます。
@@ -38,6 +30,7 @@ class Event < ApplicationRecord
   def notify_followers
     # イベント作成者のフォロワーを一人ずつ処理する
     self.organizer.follower_users.each do |follower|
+      
       # 各フォロワーに対して、通知を作成する
       UserNotification.create!(
         user: follower, # 通知を受け取るユーザー
@@ -48,12 +41,13 @@ class Event < ApplicationRecord
   end
   
   # バリデーション
-  validates :representative, presence: true  # 企業名または企画名が存在すること
-  validates :location, presence: true  # 開催地が存在すること
-  validates :end_time, presence: true  # 主要商品が存在すること
-  validates :start_time, presence: true
-  validates :category, presence: true
-  validates :name, presence: true
-  validates :main_products, presence: true
-  validates :description, presence: true
+  validates :representative, presence: { message: "企画名または企業名が空白です" }
+  validates :category, presence: { message: "カテゴリが空白です" }
+  validates :location, presence: { message: "開催地が空白です" }
+  validates :name, presence: { message: "代表者名が空白です" }
+  validates :start_time, presence: { message: "開始日時が空白です" }
+  validates :end_time, presence: { message: "終了日時が空白です" }
+  validates :main_products, presence: { message: "主要商品が空白です" }
+  validates :max_participants, presence: { message: "上限人数が空白です" }
+  validates :description, presence: { message: "詳細な説明が空白です" }
 end

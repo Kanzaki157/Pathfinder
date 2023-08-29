@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show, :edit, :update] do
     member do
       get :follows, :followers
+      patch :update_icon
     end
       resource :relationships, only: [:create, :destroy]
   end
@@ -47,6 +48,7 @@ Rails.application.routes.draw do
     
     post 'join', on: :member
     post 'cancel', on: :member
+    delete 'leave', on: :member
     delete 'remove_participant', on: :member
   end
 end

@@ -13,6 +13,4 @@ class UserNotificationsController < ApplicationController
       redirect_to root_path, alert: '通知が見つかりませんでした。'
     end
   end
-
-  
 end

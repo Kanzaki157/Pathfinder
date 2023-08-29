@@ -8,7 +8,7 @@ class RelationshipsController < ApplicationController
     notification = followed_user.user_notifications.build(notification_type: 'followed', user: current_user)
     if notification.save
     # 保存が成功したときの処理
-    flash[:success] = 'フォローしました。通知も送信されました。'
+    # flash[:success] = 'フォローしました。通知も送信されました。'
     else
     # 保存が失敗したときの処理
     flash[:alert] = 'フォローは成功しましたが、通知の送信に失敗しました。'
