@@ -19,6 +19,12 @@
           <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
             <p><em>いいねするには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
           <% end %>
+          <% if user_signed_in? && current_user == @event.organizer %>
+  <%= link_to edit_event_path(@event) do %>
+    <i class="fas fa-edit"></i>
+  <% end %>
+<% end %>
+
       </div>
     </div>
       <div class="card-body">
@@ -59,14 +65,14 @@
           </ul>
         <% if user_signed_in? && current_user == @event.organizer %>
           <h3 class="pl-4">管理機能</h3>
-            <%= button_to '終了する', { controller: "events", action: "cancel", id: @event.id }, method: :post, data: { confirm: '本当に終了しますか？' }, class: 'btn btn-danger pl-4' %>
+            <%= button_to '終了する', { controller: "events", action: "cancel", id: @event.id }, method: :post, data: { confirm: '本当に終了しますか？' }, class: 'btn btn-danger ml-4' %>
         <% end %>
           <div class="join-button-container mt-3">
             <% if user_signed_in? && current_user.email != "guest@example.com" %>
               <% if @event.participants.include?(current_user) %>
-                <%= button_to '参加取り消し', leave_event_path(@event), method: :delete, class: 'btn btn-warning pl-4' %>
+                <%= button_to '参加取り消し', leave_event_path(@event), method: :delete, class: 'btn btn-warning ml-4' %>
               <% elsif @event.participants.count < @event.max_participants %>
-                <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary pl-4' %>
+                <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary ml-4' %>
               <% end %>
             <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
               <p><em>参加するには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
@@ -76,7 +82,3 @@
       </div>
   </div>
 </div>
-
-<% if user_signed_in? && current_user == @event.organizer %>
-  <%= link_to "編集", edit_event_path(@event) %>
-<% end %>

@@ -237,17 +237,22 @@ footer {
 }
 
 .event-modal-title {
-  padding-left: 300px;
+  /*padding-left: 300px;*/
+  margin: 0 auto;
   font-size: 30px;
   margin-bottom: 0;
 }
 
-/* タブレットや小さいデスクトップの画面サイズの場合 */
-@media (max-width: 992px) {
-  .event-modal-title {
-    padding-left: 150px; /* 中くらいの画面サイズに対応するスタイル */
-  }
+.close {
+  margin-left: 0 !important;
 }
+
+.edit-event-title {
+  text-align: center;
+  margin-top: 10px
+}
+
+/* タブレットや小さいデスクトップの画面サイズの場合 */
 
 /* モバイルデバイスの場合 */
 @media (max-width: 576px) {
@@ -255,4 +260,8 @@ footer {
     padding-left: 50px; /* 小さい画面サイズに対応するスタイル */
     font-size: 24px;    /* フォントサイズを少し小さくする */
   }
+}
+
+.fs-30 {
+  font-size: 30px;
 }
