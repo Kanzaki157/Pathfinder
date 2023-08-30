@@ -32,6 +32,10 @@
               </a>
               <ul class="navbar-nav ml-auto flex-row">
                 
+                <% flash.each do |name, msg| %>
+                  <%= content_tag(:div, msg, class: "alert flash_messages pl-4 pt-", style: "background-color: transparent; border: none;") %>
+                <% end %>
+                
                 <% if current_user != nil && current_user.admin? %>
                   <li class="nav-item mr-3 "style="font-size: 20px; font-family: 'Noto Serif JP', serif;">
                     <%= link_to '管理者', admin_users_path, class: 'nav-link text-dark' %>
@@ -106,9 +110,6 @@
           </div>
         </div>
       </div>
-      <% flash.each do |name, msg| %>
-        <%= content_tag(:div, msg, class: "alert alert-info flash_messages") %>
-      <% end %>
       </div>
       <main>
         <%= yield %>

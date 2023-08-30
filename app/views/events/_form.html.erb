@@ -2,21 +2,21 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card-body">
-          <%= form_with(model: @event, url: events_path, data: { confirm: "本当にこの情報で投稿しますか？" }) do |form| %>
+          <%= form_with(model: @event, data: { confirm: "本当にこの情報で投稿しますか？" }) do |form| %>
             <div class="mb-3">
-              <%= form.label :representative, 'イベント名または企業名', class: 'form-label' %>
-                <%= form.text_field :representative, class: 'form-control' %>
+              <%= form.label :representative, "イベントの代表者", class: 'form-label' %>
+                <%= form.text_field :representative, class: "form-control", required: true %>
                   <% if @event.errors[:representative].any? %>
                     <div class="alert alert-danger mt-2">
                       <%= @event.errors[:representative].join(", ") %>
                     </div>
                   <% end %>
                 <small class="form-text text-muted">イベント名または、企業名をフルネームで入力してください。</small>
-            </div>
-            
+              </div>
+              
             <div class="mb-3">
               <%= form.label :category, "カテゴリ", class: 'form-label' %>
-              <%= form.select :category, ['お祭り', '体験', '出会い', 'その他'], {}, class: "form-control" %>
+                <%= form.select :category, ['お祭り', '体験', '出会い', 'その他'], {}, class: "form-control" %>
               <% if @event.errors[:category].any? %>
                 <div class="alert alert-danger mt-2">
                   <%= @event.errors[:category].join(", ") %>
@@ -27,17 +27,18 @@
             
             <div class="mb-3">
               <%= form.label :location, "開催地", class: 'form-label' %>
-                <%= form.text_field :location, class: "form-control" %>
-                  <% if @event.errors[:location].any? %>
-                    <div class="alert alert-danger mt-2">
-                      <%= @event.errors[:location].join(", ") %>
-                    </div>
-                  <% end %>
-                <small class="form-text text-muted">イベントの開催地を具体的に記載してください。Google Mapsで検索可能な住所が理想的です。</small>
+                <%= form.text_field :location, class: "form-control", required: true %>
+              <% if @event.errors[:location].any? %>
+                <div class="alert alert-danger mt-2">
+                  <%= @event.errors[:location].join(", ") %>
+                </div>
+              <% end %>
+              <small class="form-text text-muted">イベントの開催地を具体的に記載してください。Google Mapsで検索可能な住所が理想的です。</small>
             </div>
+            
             <div class="mb-3">
               <%= form.label :name, "代表者名", class: 'form-label' %>
-                <%= form.text_field :name, class: "form-control" %>
+                <%= form.text_field :name, class: "form-control", required: true %>
                   <% if @event.errors[:name].any? %>
                     <div class="alert alert-danger mt-2">
                       <%= @event.errors[:name].join(", ") %>
@@ -45,6 +46,7 @@
                   <% end %>
                 <small class="form-text text-muted">代表者のフルネームを入力してください。</small>
             </div>
+
             
             <div class="mb-3">
               <%= form.label :start_time, "開始日時", class: 'form-label' %>
@@ -65,12 +67,12 @@
                       <%= @event.errors[:end_time].join(", ") %>
                     </div>
                   <% end %>
-                 <small class="form-text text-muted">イベントの終了日時を入力してください。</small>
+                <small class="form-text text-muted">イベントの終了日時を入力してください。</small>
             </div>
 
             <div class="mb-3">
               <%= form.label :main_products, "主要商品", class: 'form-label' %>
-                <%= form.text_area :main_products, class: "form-control" %>
+                <%= form.text_area :main_products, class: "form-control", required: true %>
                   <% if @event.errors[:main_products].any? %>
                     <div class="alert alert-danger mt-2">
                       <%= @event.errors[:main_products].join(", ") %>
@@ -78,6 +80,7 @@
                   <% end %>
                 <small class="form-text text-muted">主に取り扱っている商品やサービスを具体的に記載してください。</small>
             </div>
+
 
             <div class="mb-3">
               <%= form.label :max_participants, "上限人数", class: 'form-label' %>
@@ -92,14 +95,15 @@
 
             <div class="mb-3">
               <%= form.label :description, "詳細な説明", class: 'form-label' %>
-                <%= form.text_area :description, class: "form-control" %>
+                <%= form.text_area :description, class: "form-control", required: true %>
                   <% if @event.errors[:description].any? %>
                     <div class="alert alert-danger mt-2">
                       <%= @event.errors[:description].join(", ") %>
                     </div>
                   <% end %>
                 <small class="form-text text-muted">イベントまたは企業についての詳細な説明を入力てください。</small>
-              </div>
+            </div>
+
             <%= form.submit class: "btn btn-primary" %>
           <% end %>
         </div>

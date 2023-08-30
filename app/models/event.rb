@@ -41,13 +41,12 @@ class Event < ApplicationRecord
   end
   
   # バリデーション
-  validates :representative, presence: { message: "企画名または企業名が空白です" }
-  validates :category, presence: { message: "カテゴリが空白です" }
-  validates :location, presence: { message: "開催地が空白です" }
-  validates :name, presence: { message: "代表者名が空白です" }
-  validates :start_time, presence: { message: "開始日時が空白です" }
-  validates :end_time, presence: { message: "終了日時が空白です" }
-  validates :main_products, presence: { message: "主要商品が空白です" }
-  validates :max_participants, presence: { message: "上限人数が空白です" }
-  validates :description, presence: { message: "詳細な説明が空白です" }
+  validates :representative, presence: true
+  validates :name, presence: true
+  validates :location, presence: true
+  validates :start_time, presence: true
+  validates :end_time, presence: true
+  validates :main_products, presence: true
+  validates :max_participants, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :description, presence: true
 end

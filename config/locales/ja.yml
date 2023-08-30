@@ -19,7 +19,7 @@ ja:
             main_products:
               blank: "主要商品が入力されていません。"
             max_participants:
-              blank: "参加者の上限人数が入学されておりません"
-              not_a_number: "数字で入力してください。"
+              blank: "参加者の上限人数が入力されておりません"
+              not_a_number: "数字で入力してください。お願いいたします"
             description:
               blank: "説明が入力されていません。"

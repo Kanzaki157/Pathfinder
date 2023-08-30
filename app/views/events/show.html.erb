@@ -66,7 +66,7 @@
               <% if @event.participants.include?(current_user) %>
                 <%= button_to '参加取り消し', leave_event_path(@event), method: :delete, class: 'btn btn-warning pl-4' %>
               <% elsif @event.participants.count < @event.max_participants %>
-                <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary' %>
+                <%= button_to '参加する', { controller: "events", action: "join", id: @event.id }, method: :post, class: 'btn btn-primary pl-4' %>
               <% end %>
             <% elsif !user_signed_in? || current_user.email == "guest@example.com" %>
               <p><em>参加するには、<%= link_to "ログイン", new_user_session_path %>または<%= link_to "新規登録", new_user_registration_path %>が必要です。</em></p>
@@ -76,3 +76,7 @@
       </div>
   </div>
 </div>
+
+<% if user_signed_in? && current_user == @event.organizer %>
+  <%= link_to "編集", edit_event_path(@event) %>
+<% end %>

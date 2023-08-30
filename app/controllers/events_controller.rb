@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   # 特定のアクションを実行する前に、対象のイベントを設定
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :join]
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [:edit, :update]
 
   # 全てのイベントを取得
   def index
@@ -62,7 +63,6 @@ class EventsController < ApplicationController
     end
   end
   
-  # 特定のイベントを編集（set_eventが先に実行される）
   def edit
     @event = Event.find(params[:id])
   end
@@ -127,6 +127,9 @@ class EventsController < ApplicationController
 
   private
   
+  def ensure_correct_user
+    redirect_to(root_path) unless current_user == @event.organizer
+  end
   # params[:id]で指定されたイベントを設定
   def set_event
     @event = Event.find(params[:id])
