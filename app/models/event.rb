@@ -26,20 +26,31 @@ class Event < ApplicationRecord
   # イベントが作成された後、notify_followersメソッドを呼び出す
   after_create :notify_followers
 
-  # notify_followersメソッドの定義
   def notify_followers
-    # イベント作成者のフォロワーを一人ずつ処理する
+    count = 0
+    
     self.organizer.follower_users.each do |follower|
-      
-      # 各フォロワーに対して、通知を作成する
-      UserNotification.create!(
-        user: follower, # 通知を受け取るユーザー
-        event: self,    # 通知に関連するイベント
-        notification_type: 'new_event', # 通知のタイプ（ここでは新しいイベントを示す文字列）
-      )
+      unless follower == self.organizer
+        UserNotification.create!(
+          user: follower,
+          event: self,
+          notification_type: 'new_event'
+        )
+        count += 1
+      end
     end
-  end
   
+    UserNotification.create!(
+      user: self.organizer,
+      event: self,
+      notification_type: 'new_event'
+    )
+    count += 1
+  
+    Rails.logger.info "Total notifications sent for the event #{self.id}: #{count}"
+  end
+
+
   # バリデーション
   validates :representative, presence: true
   validates :name, presence: true

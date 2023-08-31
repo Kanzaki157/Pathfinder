@@ -97,7 +97,7 @@
                         <%= link_to "#{notification.event.creator.first_name} #{notification.event.creator.last_name}さんが新しいイベントを作成しました!", event_path(notification.event), data: { "turbolinks"=>false } %>
                         <%= button_to "削除", user_notification_path(id: notification.id), method: :delete, data: { confirm: "メッセージを削除しますか？" } %>
                       <% else %>
-                        <%#= notification.notification_type %>
+                        <%= notification.notification_type %>
                       <% end %>
                     </div>
                   <% end %>
