@@ -80,35 +80,38 @@
             </div>
           </nav>
         </header>
-        <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="notificationsModalLabel">通知内容</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <% if current_user %>
-                  <% current_user.user_notifications.where(read_status: false).each do |notification| %>
-                    <div>
-                      <% if notification.notification_type == 'new_event' %>
-                        <%= link_to "#{notification.event.creator.first_name} #{notification.event.creator.last_name}さんが新しいイベントを作成しました!", event_path(notification.event), data: { "turbolinks"=>false } %>
-                        <%= button_to "削除", user_notification_path(id: notification.id), method: :delete, data: { confirm: "メッセージを削除しますか？" } %>
-                      <% else %>
-                        <%= notification.notification_type %>
-                      <% end %>
-                    </div>
+    <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="notificationsModalLabel">通知内容</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <% if current_user %>
+              <% current_user.user_notifications.where(read_status: false).each do |notification| %>
+                <div>
+                  <% if notification.notification_type == 'new_event' %>
+                    <%= link_to "#{notification.event.creator.first_name} #{notification.event.creator.last_name}さんが新しいイベントを作成しました!", event_path(notification.event), data: { "turbolinks"=>false } %>
+                  <% elsif notification.notification_type == 'unfollowed' %>
+                    <%= "#{notification.user.first_name} #{notification.user.last_name}さんにフォローを外されました。" %>
+                  <% elsif notification.notification_type == 'new_follower' %> <!-- 例: 'こんにちは'を'new_follower'に変更 -->
+                    <%= link_to "#{notification.user.first_name} #{notification.user.last_name}さんがあなたをフォローしました!", user_path(notification.user), data: { "turbolinks"=>false } %>
                   <% end %>
-                <% end %>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
-            </div>
+                  <%= button_to "削除", user_notification_path(id: notification.id), method: :delete, data: { confirm: "メッセージを削除しますか？" } %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
+      </div>
+    </div>
+
       </div>
       </div>
       <main>

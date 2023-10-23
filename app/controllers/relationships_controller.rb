@@ -5,7 +5,7 @@ class RelationshipsController < ApplicationController
   def create
     followed_user = User.find(params[:user_id])
     current_user.follow(followed_user.id)
-    notification = followed_user.user_notifications.build(notification_type: 'こんにちは', user: current_user)
+    notification = followed_user.user_notifications.build(notification_type: 'new_follower', user: current_user)
     if notification.save
     # 保存が成功したときの処理
     # flash[:success] = 'フォローしました。通知も送信されました。'
@@ -19,7 +19,10 @@ class RelationshipsController < ApplicationController
   
   # フォロー外すとき
   def destroy
-    current_user.unfollow(params[:user_id])
+    unfollowed_user = User.find(params[:user_id])
+    current_user.unfollow(unfollowed_user.id)
+    notification = unfollowed_user.user_notifications.build(notification_type: 'unfollowed', user: current_user)
+    notification.save
     redirect_to request.referer  
   end
   

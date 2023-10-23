@@ -40,6 +40,7 @@
           </tbody>
         </table>
         
+        
       <%= link_to "イベントを作成", "#createEventModal", class: "btn btn-primary", data: { toggle: "modal" } %>
         <div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -167,4 +168,14 @@
     crossFade: true
     },
   });
+  
+    document.getElementById('osaka').addEventListener('click', function() {
+      alert('大阪府がクリックされました！');
+  });
+  
+  document.getElementById('kyoto').addEventListener('click', function() {
+      alert('京都府がクリックされました！');
+  });
+
 </script>
+

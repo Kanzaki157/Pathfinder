@@ -40,12 +40,7 @@ class Event < ApplicationRecord
       end
     end
   
-    UserNotification.create!(
-      user: self.organizer,
-      event: self,
-      notification_type: 'new_event'
-    )
-    count += 1
+
   
     Rails.logger.info "Total notifications sent for the event #{self.id}: #{count}"
   end
